@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Inschrijvingen — Bandeja Padel</title>
+  <link rel="stylesheet" href="../css/app.css">
+  <style>
+    /* ─── SEGMENT CONTROL ─── */
+    .segment-ctrl {
+      margin: 16px var(--pad) 0;
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      display: flex;
+      padding: 3px;
+      gap: 3px;
+    }
+    .seg-btn {
+      flex: 1;
+      height: 36px;
+      border-radius: 9px;
+      font-family: var(--f-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--c-gray);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .seg-btn.active {
+      background: var(--c-green);
+      color: var(--c-black);
+    }
+
+    /* ─── REG CARD ─── */
+    .reg-list {
+      padding: 16px var(--pad) 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .reg-card {
+      background: var(--c-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+    }
+
+    /* Status line at top */
+    .reg-card-status-line {
+      height: 3px;
+    }
+    .reg-card-status-line.confirmed { background: var(--c-green); }
+    .reg-card-status-line.pending { background: var(--c-gold); }
+    .reg-card-status-line.past { background: var(--c-border); }
+
+    .reg-card-main {
+      padding: 14px;
+    }
+    .reg-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .reg-card-title {
+      font-family: var(--f-display);
+      font-size: 16px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+    .reg-status-badge {
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: var(--f-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .reg-status-badge.confirmed {
+      background: rgba(46,204,113,0.12);
+      border: 1px solid rgba(46,204,113,0.3);
+      color: var(--c-green);
+    }
+    .reg-status-badge.pending {
+      background: rgba(255,209,102,0.1);
+      border: 1px solid rgba(255,209,102,0.25);
+      color: var(--c-gold);
+    }
+    .reg-status-badge.past {
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      color: var(--c-gray);
+    }
+
+    .reg-card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .reg-info-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--c-gray);
+    }
+    .reg-info-icon { font-size: 13px; }
+    .reg-info-val { color: var(--c-white); opacity: 0.75; }
+
+    .reg-card-footer {
+      border-top: 1px solid var(--c-border);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .reg-partner-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .reg-partner-av {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display);
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--c-black);
+    }
+    .reg-partner-name { font-size: 12px; color: var(--c-gray); }
+    .reg-card-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .reg-action-btn {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: var(--r-sm);
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .reg-action-btn.primary {
+      background: var(--c-green);
+      color: var(--c-black);
+      border: none;
+    }
+    .reg-action-btn.secondary {
+      background: transparent;
+      border: 1px solid var(--c-border);
+      color: var(--c-gray);
+    }
+    .reg-action-btn.danger {
+      background: transparent;
+      border: 1px solid rgba(255,85,85,0.3);
+      color: var(--c-red);
+    }
+    .reg-action-btn:active { opacity: 0.8; }
+
+    /* ─── LEVEL BADGE INLINE ─── */
+    .level-badge-sm {
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: var(--f-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .level-badge-sm.intermediair { background: rgba(37,168,90,0.15); color: var(--rank-6); }
+    .level-badge-sm.beginner { background: rgba(168,230,61,0.12); color: var(--rank-9); }
+    .level-badge-sm.gevorderd { background: rgba(212,220,228,0.1); color: var(--rank-3); }
+
+    /* ─── EMPTY STATE ─── */
+    .empty-state {
+      padding: 60px var(--pad);
+      text-align: center;
+    }
+    .empty-icon { font-size: 48px; margin-bottom: 16px; }
+    .empty-title {
+      font-family: var(--f-display);
+      font-size: 18px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .empty-sub {
+      font-size: 13px;
+      color: var(--c-gray);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .empty-btn {
+      display: inline-block;
+      height: 48px;
+      padding: 0 24px;
+      background: var(--c-green);
+      color: var(--c-black);
+      border-radius: var(--r-md);
+      font-family: var(--f-display);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 48px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Status bar -->
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <span class="status-icon">●●●</span>
+        <span class="status-icon">WiFi</span>
+        <span class="status-icon">⚡</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="app-header">
+      <div class="header-title">Inschrijvingen</div>
+    </div>
+
+    <!-- Segment control -->
+    <div class="segment-ctrl">
+      <button class="seg-btn active" id="seg-upcoming" onclick="showTab('upcoming')">Aankomend</button>
+      <button class="seg-btn" id="seg-past" onclick="showTab('past')">Gespeeld</button>
+    </div>
+
+    <div class="scroll-area">
+
+      <!-- UPCOMING TAB -->
+      <div id="tab-upcoming">
+        <div class="reg-list">
+
+          <!-- Confirmed registration -->
+          <div class="reg-card">
+            <div class="reg-card-status-line confirmed"></div>
+            <div class="reg-card-main">
+              <div class="reg-card-header">
+                <div>
+                  <div class="reg-card-title">Lake Seven Rotterdam</div>
+                  <span class="level-badge-sm intermediair">Intermediair</span>
+                </div>
+                <span class="reg-status-badge confirmed">Bevestigd</span>
+              </div>
+              <div class="reg-card-info">
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">📅</span>
+                  <span class="reg-info-val">Zaterdag 12 april 2026</span>
+                </div>
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">🕐</span>
+                  <span class="reg-info-val">12:00 – 19:00</span>
+                </div>
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">📍</span>
+                  <span class="reg-info-val">Strandweg 23, Zevenhuizen</span>
+                </div>
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">💶</span>
+                  <span class="reg-info-val">€50 per koppel — betaald</span>
+                </div>
+              </div>
+            </div>
+            <div class="reg-card-footer">
+              <div class="reg-partner-row">
+                <div class="reg-partner-av" style="background: linear-gradient(135deg, var(--c-green), var(--rank-5));">TB</div>
+                <span class="reg-partner-name">Tim Bakker</span>
+              </div>
+              <div class="reg-card-actions">
+                <a href="toernooi-detail.html" class="reg-action-btn primary">Details</a>
+                <button class="reg-action-btn danger">Afmelden</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pending registration -->
+          <div class="reg-card">
+            <div class="reg-card-status-line pending"></div>
+            <div class="reg-card-main">
+              <div class="reg-card-header">
+                <div>
+                  <div class="reg-card-title">Padelworld Hoefkade</div>
+                  <span class="level-badge-sm intermediair">Intermediair</span>
+                </div>
+                <span class="reg-status-badge pending">In behandeling</span>
+              </div>
+              <div class="reg-card-info">
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">📅</span>
+                  <span class="reg-info-val">Zaterdag 26 april 2026</span>
+                </div>
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">🕐</span>
+                  <span class="reg-info-val">10:00 – 18:00</span>
+                </div>
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">📍</span>
+                  <span class="reg-info-val">Hoefkade 14, Den Haag</span>
+                </div>
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">💶</span>
+                  <span class="reg-info-val">€50 per koppel — in afwachting</span>
+                </div>
+              </div>
+            </div>
+            <div class="reg-card-footer">
+              <div class="reg-partner-row">
+                <div class="reg-partner-av" style="background: linear-gradient(135deg, var(--c-lime), var(--c-green));">JB</div>
+                <span class="reg-partner-name">Joost van den Berg</span>
+              </div>
+              <div class="reg-card-actions">
+                <a href="toernooi-detail.html" class="reg-action-btn secondary">Details</a>
+                <button class="reg-action-btn danger">Annuleren</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CTA to browse -->
+        <div style="padding: 20px var(--pad) 0;">
+          <a href="toernooien.html" style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 48px;
+            background: transparent;
+            border: 1px dashed var(--c-border);
+            border-radius: var(--r-md);
+            font-family: var(--f-display);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--c-gray);
+            text-decoration: none;
+          ">
+            + Nieuw toernooi zoeken
+          </a>
+        </div>
+        <div style="height: 24px;"></div>
+      </div>
+
+      <!-- PAST TAB (hidden by default) -->
+      <div id="tab-past" style="display:none;">
+        <div class="reg-list">
+
+          <div class="reg-card">
+            <div class="reg-card-status-line past"></div>
+            <div class="reg-card-main">
+              <div class="reg-card-header">
+                <div>
+                  <div class="reg-card-title">Groen Geel Padel</div>
+                  <span class="level-badge-sm intermediair">Intermediair</span>
+                </div>
+                <span class="reg-status-badge past">Gespeeld</span>
+              </div>
+              <div class="reg-card-info">
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">📅</span>
+                  <span class="reg-info-val">Zondag 22 maart 2026</span>
+                </div>
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">🏆</span>
+                  <span class="reg-info-val" style="color: var(--c-gold);">Halve finale bereikt</span>
+                </div>
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">📍</span>
+                  <span class="reg-info-val">Groen Geel Rotterdam</span>
+                </div>
+              </div>
+            </div>
+            <div class="reg-card-footer">
+              <div class="reg-partner-row">
+                <div class="reg-partner-av" style="background: linear-gradient(135deg, var(--c-lime), var(--c-green));">JB</div>
+                <span class="reg-partner-name">Joost van den Berg</span>
+              </div>
+              <div class="reg-card-actions">
+                <a href="resultaten.html" class="reg-action-btn secondary">Resultaten</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="reg-card">
+            <div class="reg-card-status-line past"></div>
+            <div class="reg-card-main">
+              <div class="reg-card-header">
+                <div>
+                  <div class="reg-card-title">Urban Sports Club</div>
+                  <span class="level-badge-sm intermediair">Intermediair</span>
+                </div>
+                <span class="reg-status-badge past">Gespeeld</span>
+              </div>
+              <div class="reg-card-info">
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">📅</span>
+                  <span class="reg-info-val">Zaterdag 14 februari 2026</span>
+                </div>
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">📊</span>
+                  <span class="reg-info-val" style="color: var(--c-red);">Groepsfase uitgeschakeld</span>
+                </div>
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">📍</span>
+                  <span class="reg-info-val">Urban Sports Amsterdam</span>
+                </div>
+              </div>
+            </div>
+            <div class="reg-card-footer">
+              <div class="reg-partner-row">
+                <div class="reg-partner-av" style="background: var(--c-slate); border: 1px solid var(--c-border); color:var(--c-gray);">RH</div>
+                <span class="reg-partner-name">Rein Hoekstra</span>
+              </div>
+              <div class="reg-card-actions">
+                <a href="resultaten.html" class="reg-action-btn secondary">Resultaten</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="reg-card">
+            <div class="reg-card-status-line past"></div>
+            <div class="reg-card-main">
+              <div class="reg-card-header">
+                <div>
+                  <div class="reg-card-title">Padel Indoor Dordrecht</div>
+                  <span class="level-badge-sm intermediair">Intermediair</span>
+                </div>
+                <span class="reg-status-badge past">Gespeeld</span>
+              </div>
+              <div class="reg-card-info">
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">📅</span>
+                  <span class="reg-info-val">Zaterdag 18 januari 2026</span>
+                </div>
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">🏆</span>
+                  <span class="reg-info-val" style="color: var(--c-green);">Kwartfinale bereikt</span>
+                </div>
+                <div class="reg-info-row">
+                  <span class="reg-info-icon">📍</span>
+                  <span class="reg-info-val">Padel Indoor Dordrecht</span>
+                </div>
+              </div>
+            </div>
+            <div class="reg-card-footer">
+              <div class="reg-partner-row">
+                <div class="reg-partner-av" style="background: linear-gradient(135deg, var(--c-green), var(--rank-5));">TB</div>
+                <span class="reg-partner-name">Tim Bakker</span>
+              </div>
+              <div class="reg-card-actions">
+                <a href="resultaten.html" class="reg-action-btn secondary">Resultaten</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div style="height: 24px;"></div>
+      </div>
+
+    </div>
+
+    <!-- Tab bar -->
+    <nav class="tab-bar">
+      <a href="home.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <span class="tab-label">Home</span>
+      </a>
+      <a href="toernooien.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
+        <span class="tab-label">Toernooien</span>
+      </a>
+      <a href="inschrijvingen.html" class="tab-item active tab-center">
+        <div class="tab-center-btn">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <span class="tab-label" style="color: var(--c-black);">Inschrijven</span>
+      </a>
+      <a href="resultaten.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <span class="tab-label">Resultaten</span>
+      </a>
+      <a href="profiel.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <span class="tab-label">Profiel</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    function showTab(tab) {
+      document.getElementById('tab-upcoming').style.display = tab === 'upcoming' ? 'block' : 'none';
+      document.getElementById('tab-past').style.display = tab === 'past' ? 'block' : 'none';
+      document.getElementById('seg-upcoming').classList.toggle('active', tab === 'upcoming');
+      document.getElementById('seg-past').classList.toggle('active', tab === 'past');
+    }
+  </script>
+</body>
+</html>

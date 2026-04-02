@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toernooi Lake Seven Rotterdam — Bandeja Padel Spijkers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* ── PRODUCT HERO ── */
+    .product-hero {
+      padding-top: var(--nav-h);
+      position: relative;
+      overflow: hidden;
+    }
+    .product-hero-img {
+      height: 480px;
+      position: relative;
+      overflow: hidden;
+    }
+    .product-hero-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .product-hero-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(14,16,20,0.3) 0%, rgba(14,16,20,0.85) 100%);
+    }
+    .product-hero-content {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 48px var(--pad-x);
+      max-width: var(--w-max);
+      margin: 0 auto;
+    }
+    .product-hero-inner {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 1;
+    }
+    .product-hero-inner > div {
+      max-width: var(--w-max);
+      margin: 0 auto;
+      padding: 0 var(--pad-x) 48px;
+    }
+    .product-title {
+      font-family: var(--f-display);
+      font-size: clamp(48px, 7vw, 96px);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .product-meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px 40px;
+      padding: 24px 0;
+      border-top: 1px solid rgba(244,246,240,0.15);
+    }
+    .product-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .product-meta-label {
+      font-family: var(--f-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--c-gray);
+    }
+    .product-meta-value {
+      font-family: var(--f-display);
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── MAIN CONTENT LAYOUT ── */
+    .product-layout {
+      max-width: var(--w-max);
+      margin: 0 auto;
+      padding: 72px var(--pad-x);
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 80px;
+      align-items: flex-start;
+    }
+
+    /* ── REGISTRATION SIDEBAR ── */
+    .registration-box {
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      border-radius: 2px;
+      overflow: hidden;
+      position: sticky;
+      top: calc(var(--nav-h) + 24px);
+    }
+    .reg-header {
+      background: var(--c-dark);
+      border-bottom: 1px solid var(--c-border);
+      padding: 24px;
+    }
+    .reg-price-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .reg-price {
+      font-family: var(--f-display);
+      font-size: 52px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--c-green);
+    }
+    .reg-price-note {
+      font-size: 13px;
+      color: var(--c-gray);
+      line-height: 1.5;
+      text-align: right;
+    }
+    .reg-body { padding: 24px; }
+
+    /* Level tabs */
+    .level-tabs {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+    .level-tab {
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 10px 8px;
+      border: 1px solid var(--c-border);
+      border-radius: 2px;
+      color: var(--c-gray);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .level-tab:hover { border-color: var(--c-green); color: var(--c-green); }
+    .level-tab.active { background: var(--c-green); color: var(--c-black); border-color: var(--c-green); }
+
+    /* ── CONTENT SECTIONS ── */
+    .detail-section { margin-bottom: 56px; }
+    .detail-h2 {
+      font-family: var(--f-display);
+      font-size: 28px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .detail-p { font-size: 15px; color: var(--c-gray); line-height: 1.75; margin-bottom: 16px; }
+
+    /* Format timeline */
+    .format-timeline {
+      border: 1px solid var(--c-border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .format-step {
+      display: flex;
+      gap: 24px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .format-step:last-child { border-bottom: none; }
+    .format-time {
+      font-family: var(--f-display);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--c-green);
+      min-width: 80px;
+      letter-spacing: 0.04em;
+    }
+    .format-desc { font-size: 14px; color: var(--c-gray); line-height: 1.6; }
+    .format-desc strong { color: var(--c-white); display: block; margin-bottom: 2px; font-family: var(--f-display); font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; }
+
+    /* Info list */
+    .info-list { display: flex; flex-direction: column; gap: 0; }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .info-row:first-child { border-top: 1px solid var(--c-border); }
+    .info-key {
+      font-family: var(--f-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-gray);
+      flex-shrink: 0;
+      min-width: 120px;
+    }
+    .info-val { font-size: 14px; color: var(--c-white); text-align: right; line-height: 1.5; }
+
+    /* Related */
+    .related-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+
+    @media (max-width: 1024px) {
+      .product-layout { grid-template-columns: 1fr; }
+      .registration-box { position: static; }
+      .related-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .product-hero-img { height: 320px; }
+      .product-title { font-size: clamp(36px, 10vw, 64px); }
+      .product-meta-bar { gap: 16px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo/logo-Bandeja-Spijkers.png" alt="Bandeja Padel Spijkers" />
+        <span class="nav-logo-text">Bandeja<br/>Padel Spijkers</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="toernooien.html" class="active">Toernooien</a></li>
+        <li class="has-dropdown">
+          <a href="lessen.html">Lessen &amp; Clinics</a>
+          <ul class="nav-dropdown">
+            <li><a href="lessen.html">Lessen</a></li>
+            <li><a href="clinics.html">Clinics</a></li>
+          </ul>
+        </li>
+        <li><a href="over-ons.html">Over ons</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="toernooien.html" class="btn btn-primary nav-cta">Inschrijven →</a>
+      <button class="nav-burger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <nav class="nav-mobile">
+    <a href="index.html">Home</a>
+    <a href="toernooien.html" class="active">Toernooien</a>
+    <a href="lessen.html">Lessen</a>
+    <a href="clinics.html">Clinics</a>
+    <a href="over-ons.html">Over ons</a>
+    <a href="#contact">Contact</a>
+    <a href="toernooien.html" class="btn btn-primary mob-cta">Inschrijven →</a>
+  </nav>
+
+  <main>
+
+    <!-- ══ PRODUCT HERO ══ -->
+    <div class="product-hero">
+      <div class="hero-grid" style="position:absolute;inset:0;z-index:0;"></div>
+      <div class="product-hero-img">
+        <img src="images/Toernooien/Template-1-70-300x300.png" alt="Toernooi Lake Seven Rotterdam" />
+      </div>
+      <div class="product-hero-inner">
+        <div>
+          <!-- Breadcrumb -->
+          <p style="font-family:var(--f-display);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-gray);margin-bottom:16px;">
+            <a href="toernooien.html" style="color:var(--c-gray);transition:color 0.2s;" onmouseover="this.style.color='var(--c-green)'" onmouseout="this.style.color='var(--c-gray)'">← Toernooien</a>
+          </p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+            <span class="badge badge-green">Inschrijving open</span>
+            <span class="badge badge-white">Alle niveaus</span>
+          </div>
+          <h1 class="product-title">Toernooi<br/>Lake <span style="color:var(--c-green);">Seven</span><br/>Rotterdam</h1>
+          <div class="product-meta-bar">
+            <div class="product-meta-item">
+              <span class="product-meta-label">Datum</span>
+              <span class="product-meta-value">Zondag 12 April 2026</span>
+            </div>
+            <div class="product-meta-item">
+              <span class="product-meta-label">Tijd</span>
+              <span class="product-meta-value">12:00 – 19:00</span>
+            </div>
+            <div class="product-meta-item">
+              <span class="product-meta-label">Locatie</span>
+              <span class="product-meta-value">Rotterdam, Zevenhuizen</span>
+            </div>
+            <div class="product-meta-item">
+              <span class="product-meta-label">Prijs</span>
+              <span class="product-meta-value" style="color:var(--c-green);">€50 per koppel</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CONTENT + SIDEBAR ══ -->
+    <div class="product-layout">
+
+      <!-- MAIN CONTENT -->
+      <div>
+
+        <!-- Description -->
+        <div class="detail-section reveal">
+          <h2 class="detail-h2">Over dit toernooi</h2>
+          <p class="detail-p">Kom padellen op een van de mooiste locaties rondom Rotterdam — Lake Seven in Zevenhuizen. Je speelt in een poulefase van drie wedstrijden, gevolgd door halve finales en finales in jouw niveaugroep.</p>
+          <p class="detail-p">Je schrijft je als koppel in en speelt alle wedstrijden samen. Of je nu voor het eerst meedoet aan een toernooi of al ervaring hebt: dit toernooi is voor iedereen toegankelijk. Winnaars van elke categorie ontvangen een prijs.</p>
+          <p class="detail-p">Het wedstrijdschema ontvang je de dag voor het toernooi per e-mail. De exacte tijden kunnen iets variëren afhankelijk van het aantal inschrijvingen.</p>
+        </div>
+
+        <!-- Format -->
+        <div class="detail-section reveal">
+          <h2 class="detail-h2">Programma &amp; format</h2>
+          <div class="format-timeline">
+            <div class="format-step">
+              <span class="format-time">12:00</span>
+              <div class="format-desc">
+                <strong>Ontvangst &amp; warming-up</strong>
+                Aankomst op Lake Seven. Welkom, kennismaken met je tegenstanders en warming-up op de baan.
+              </div>
+            </div>
+            <div class="format-step">
+              <span class="format-time">12:30</span>
+              <div class="format-desc">
+                <strong>Poulefase — 3 × 30 min</strong>
+                Drie poulewedstrijden van elk 30 minuten. Je speelt in jouw niveaugroep (beginner, intermediair of gevorderd).
+              </div>
+            </div>
+            <div class="format-step">
+              <span class="format-time">14:30</span>
+              <div class="format-desc">
+                <strong>Kwartfinales &amp; halve finales</strong>
+                De best geklasseerde koppels per niveaugroep gaan door naar de knock-out fase. Ook verliezers spelen door.
+              </div>
+            </div>
+            <div class="format-step">
+              <span class="format-time">17:00</span>
+              <div class="format-desc">
+                <strong>Finales</strong>
+                Finale per niveaugroep. Strijd om de prijzen!
+              </div>
+            </div>
+            <div class="format-step">
+              <span class="format-time">18:30</span>
+              <div class="format-desc">
+                <strong>Prijsuitreiking</strong>
+                Winnaars van elke categorie ontvangen hun prijs. Gezellig afsluiten met een drankje.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Praktische info -->
+        <div class="detail-section reveal">
+          <h2 class="detail-h2">Praktische informatie</h2>
+          <div class="info-list">
+            <div class="info-row">
+              <span class="info-key">Locatie</span>
+              <span class="info-val">Strandweg 23, 2761 DM Zevenhuizen</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Format</span>
+              <span class="info-val">Poulefase (3 × 30 min) + halve finale + finale</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Niveaus</span>
+              <span class="info-val">Beginner · Intermediair · Gevorderd</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Inschrijving</span>
+              <span class="info-val">Als koppel van 2 personen</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Prijs</span>
+              <span class="info-val">€50 per koppel (€25 p.p.)</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Schema</span>
+              <span class="info-val">Ontvangst per e-mail, 1 dag voor het toernooi</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Contact</span>
+              <span class="info-val">bandejapadeltoernooien@gmail.com</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Note -->
+        <div class="reveal" style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.2);border-left:3px solid var(--c-green);padding:20px 24px;border-radius:2px;">
+          <p style="font-size:14px;color:var(--c-gray);line-height:1.7;">
+            <strong style="color:var(--c-white);font-family:var(--f-display);text-transform:uppercase;font-size:12px;letter-spacing:0.1em;">Let op —</strong><br/>
+            Je speelt altijd alle wedstrijden met hetzelfde koppel waarmee je je hebt ingeschreven. Zorg dat je partner ook beschikbaar is voor de volledige dag.
+          </p>
+        </div>
+      </div>
+
+      <!-- SIDEBAR: Registration -->
+      <aside>
+        <div class="registration-box reveal">
+          <div class="reg-header">
+            <div class="reg-price-row">
+              <div>
+                <span style="font-family:var(--f-display);font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--c-gray);display:block;margin-bottom:4px;">Prijs per koppel</span>
+                <span class="reg-price">€50</span>
+              </div>
+              <span class="reg-price-note">€25 per<br/>persoon</span>
+            </div>
+          </div>
+          <div class="reg-body">
+            <p style="font-family:var(--f-display);font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--c-green);margin-bottom:10px;">Kies je niveau</p>
+            <div class="level-tabs">
+              <button class="level-tab active" data-level="Beginner">Beginner</button>
+              <button class="level-tab" data-level="Intermediair">Intermediair</button>
+              <button class="level-tab" data-level="Gevorderd">Gevorderd</button>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="player1-name">Speler 1 — Naam</label>
+              <input class="form-input" type="text" id="player1-name" placeholder="Voornaam Achternaam" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="player1-email">Speler 1 — E-mail</label>
+              <input class="form-input" type="email" id="player1-email" placeholder="naam@email.nl" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="player2-name">Speler 2 — Naam</label>
+              <input class="form-input" type="text" id="player2-name" placeholder="Voornaam Achternaam" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="player2-email">Speler 2 — E-mail</label>
+              <input class="form-input" type="email" id="player2-email" placeholder="naam@email.nl" />
+            </div>
+
+            <div style="border-top:1px solid var(--c-border);padding-top:20px;margin-top:8px;margin-bottom:20px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-size:14px;color:var(--c-gray);">Subtotaal (1 koppel)</span>
+                <span style="font-family:var(--f-display);font-size:16px;font-weight:700;">€50,00</span>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:14px;padding:16px;">
+              In winkelwagen →
+            </button>
+            <p style="font-size:12px;color:var(--c-gray);text-align:center;margin-top:12px;line-height:1.6;">
+              Veilig betalen via iDEAL, creditcard of Bancontact.<br/>Bevestiging per e-mail.
+            </p>
+
+            <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--c-border);display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--c-gray);">
+                <span style="color:var(--c-green);font-weight:700;">—</span> Altijd samen met jouw partner
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--c-gray);">
+                <span style="color:var(--c-green);font-weight:700;">—</span> Schema 1 dag van tevoren per mail
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--c-gray);">
+                <span style="color:var(--c-green);font-weight:700;">—</span> Prijzen voor winnaars per categorie
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Organizer -->
+        <div style="background:var(--c-slate);border:1px solid var(--c-border);border-radius:2px;padding:20px;margin-top:16px;" class="reveal">
+          <p style="font-family:var(--f-display);font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--c-gray);margin-bottom:12px;">Organisator</p>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <img src="images/logo/logo-Bandeja-Spijkers.png" alt="" style="width:40px;height:40px;object-fit:contain;" />
+            <div>
+              <p style="font-family:var(--f-display);font-size:14px;font-weight:800;text-transform:uppercase;">Bandeja Padel Spijkers</p>
+              <p style="font-size:12px;color:var(--c-gray);">@bandeja_padel_events</p>
+            </div>
+          </div>
+          <a href="mailto:bandejapadeltoernooien@gmail.com" style="font-size:13px;color:var(--c-green);display:block;">bandejapadeltoernooien@gmail.com</a>
+          <a href="tel:0646710362" style="font-size:13px;color:var(--c-gray);display:block;margin-top:4px;">06 46710362</a>
+        </div>
+      </aside>
+    </div>
+
+    <!-- ══ RELATED TOURNAMENTS ══ -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header reveal" style="margin-bottom:40px;">
+          <span class="overline">Meer toernooien</span>
+          <h2 class="section-title">Ook de moeite<br/>waard</h2>
+        </div>
+        <div class="related-grid">
+          <a href="#" class="card reveal d1">
+            <div class="card-img-wrap" style="height:160px;">
+              <img src="images/Toernooien/Template-1-73-300x300.png" alt="" style="height:160px;" />
+            </div>
+            <div class="card-body">
+              <span class="card-overline">Donderdag 17 April · Den Haag</span>
+              <h3 class="card-title">Toernooi De Uithof</h3>
+            </div>
+            <div class="card-footer">
+              <div class="card-price">€50 <small>per koppel</small></div>
+              <span class="btn btn-primary btn-sm">Inschrijven</span>
+            </div>
+          </a>
+          <a href="#" class="card reveal d2">
+            <div class="card-img-wrap" style="height:160px;">
+              <img src="images/Toernooien/Template-2-2026-03-18T093538.464-300x300.png" alt="" style="height:160px;" />
+            </div>
+            <div class="card-body">
+              <span class="card-overline">Vrijdag 18 April · Haarlem</span>
+              <h3 class="card-title">Toernooi WePadel</h3>
+            </div>
+            <div class="card-footer">
+              <div class="card-price">€50 <small>per koppel</small></div>
+              <span class="btn btn-primary btn-sm">Inschrijven</span>
+            </div>
+          </a>
+          <a href="#" class="card reveal d3">
+            <div class="card-img-wrap" style="height:160px;">
+              <img src="images/Toernooien/Template-4-2025-12-10T174713.660-300x300.png" alt="" style="height:160px;" />
+            </div>
+            <div class="card-body">
+              <span class="card-overline">Vrijdag 25 April · Amsterdam</span>
+              <h3 class="card-title">Pre-Koningsdag NDSM</h3>
+            </div>
+            <div class="card-footer">
+              <div class="card-price">€50 <small>per koppel</small></div>
+              <span class="btn btn-primary btn-sm">Inschrijven</span>
+            </div>
+          </a>
+        </div>
+        <div style="text-align:center;margin-top:40px;" class="reveal">
+          <a href="toernooien.html" class="btn btn-secondary">Bekijk alle toernooien →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" id="contact">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-wrap">
+          <img src="images/logo/logo-Bandeja-Spijkers.png" alt="" />
+          <span class="footer-brand-name">Bandeja<br/>Padel Spijkers</span>
+        </div>
+        <p class="footer-tagline">Toernooien, lessen en clinics in en om Rotterdam.</p>
+        <div class="footer-social">
+          <a href="https://instagram.com/bandeja_padel_events" target="_blank" rel="noopener">IG</a>
+          <a href="#" target="_blank" rel="noopener">LI</a>
+        </div>
+      </div>
+      <nav class="footer-nav-grid">
+        <div class="footer-col">
+          <h4>Pagina's</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="toernooien.html">Toernooien</a></li>
+            <li><a href="lessen.html">Lessen</a></li>
+            <li><a href="clinics.html">Clinics</a></li>
+            <li><a href="over-ons.html">Over ons</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li class="no-link">bandejapadeltoernooien@gmail.com</li>
+            <li class="no-link">06 46710362</li>
+            <li class="no-link">Rotterdam, Nederland</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Volg ons</h4>
+          <ul>
+            <li><a href="https://instagram.com/bandeja_padel_events" target="_blank">Instagram</a></li>
+            <li><a href="#">LinkedIn</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Bandeja Padel Spijkers · KvK: 91467179 · BTW: NL004895225B60</p>
+      <span class="footer-mark">BPS</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

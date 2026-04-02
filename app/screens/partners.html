@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Partners — Bandeja Padel</title>
+  <link rel="stylesheet" href="../css/app.css">
+  <style>
+    /* ─── PARTNER HERO CARD ─── */
+    .partner-hero {
+      margin: 16px var(--pad) 0;
+      background: linear-gradient(135deg, var(--c-slate), #1a2233);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-lg);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .partner-hero::after {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 140px; height: 140px;
+      border: 1px solid rgba(46,204,113,0.1);
+      border-radius: 50%;
+    }
+    .partner-hero-avatar {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display);
+      font-weight: 900;
+      font-size: 22px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+    }
+    .partner-hero-av-ring {
+      position: absolute; inset: -3px;
+      border-radius: 50%;
+    }
+    .partner-hero-info { flex: 1; z-index: 2; }
+    .partner-hero-name {
+      font-family: var(--f-display);
+      font-size: 20px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+    }
+    .partner-hero-meta {
+      font-size: 12px;
+      color: var(--c-gray);
+      margin-bottom: 8px;
+    }
+    .partner-hero-stats {
+      display: flex;
+      gap: 16px;
+    }
+    .ph-stat { text-align: center; }
+    .ph-stat-num {
+      font-family: var(--f-display);
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .ph-stat-lbl {
+      font-size: 9px;
+      color: var(--c-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+    .ph-divider {
+      width: 1px;
+      background: var(--c-border);
+      align-self: stretch;
+    }
+
+    /* ─── PARTNER LIST ITEM ─── */
+    .partner-items {
+      padding: 16px var(--pad) 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .partner-item {
+      background: var(--c-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+    }
+    .partner-item-top {
+      display: flex;
+      align-items: center;
+      padding: 14px;
+      gap: 14px;
+    }
+    .pi-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display);
+      font-weight: 800;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .pi-info { flex: 1; }
+    .pi-name {
+      font-family: var(--f-display);
+      font-size: 17px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 3px;
+    }
+    .pi-meta {
+      font-size: 11px;
+      color: var(--c-gray);
+    }
+    .pi-win-circle {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: 2px solid;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .pi-win-pct {
+      font-family: var(--f-display);
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .pi-win-lbl {
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Match history mini row */
+    .partner-item-history {
+      border-top: 1px solid var(--c-border);
+      padding: 10px 14px;
+    }
+    .history-label {
+      font-family: var(--f-display);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--c-gray);
+      margin-bottom: 8px;
+    }
+    .history-dots {
+      display: flex;
+      gap: 4px;
+    }
+    .h-dot {
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .h-dot.win { background: rgba(46,204,113,0.15); color: var(--c-green); }
+    .h-dot.loss { background: rgba(255,85,85,0.1); color: var(--c-red); }
+    .h-dot.empty { background: var(--c-slate); color: var(--c-gray); opacity: 0.3; }
+
+    .partner-item-footer {
+      border-top: 1px solid var(--c-border);
+      padding: 10px 14px;
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+    .pi-btn {
+      height: 30px;
+      padding: 0 12px;
+      border-radius: var(--r-sm);
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .pi-btn.primary {
+      background: var(--c-green);
+      color: var(--c-black);
+      border: none;
+    }
+    .pi-btn.secondary {
+      background: transparent;
+      border: 1px solid var(--c-border);
+      color: var(--c-gray);
+    }
+
+    /* ─── SECTION HEADER ─── */
+    .sec-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px var(--pad) 0;
+    }
+    .sec-title {
+      font-family: var(--f-display);
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Status bar -->
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <span class="status-icon">●●●</span>
+        <span class="status-icon">WiFi</span>
+        <span class="status-icon">⚡</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="app-header">
+      <a href="profiel.html" class="header-back">‹</a>
+      <div class="header-title">Partners</div>
+    </div>
+
+    <div class="scroll-area">
+
+      <!-- Best partner highlight -->
+      <div class="sec-hdr" style="padding-bottom: 12px;">
+        <span class="sec-title">Beste partner</span>
+      </div>
+      <div class="partner-hero">
+        <div class="partner-hero-avatar" style="background: linear-gradient(135deg, var(--c-green), var(--rank-5)); color: var(--c-black);">
+          <div class="partner-hero-av-ring" style="border: 2px solid rgba(46,204,113,0.5);"></div>
+          TB
+        </div>
+        <div class="partner-hero-info">
+          <div class="partner-hero-name">Tim Bakker</div>
+          <div class="partner-hero-meta">Intermediair · Rotterdam</div>
+          <div class="partner-hero-stats">
+            <div class="ph-stat">
+              <div class="ph-stat-num" style="color: var(--c-green);">50%</div>
+              <div class="ph-stat-lbl">Win rate</div>
+            </div>
+            <div class="ph-divider"></div>
+            <div class="ph-stat">
+              <div class="ph-stat-num">8</div>
+              <div class="ph-stat-lbl">Gespeeld</div>
+            </div>
+            <div class="ph-divider"></div>
+            <div class="ph-stat">
+              <div class="ph-stat-num" style="color:var(--c-green);">4</div>
+              <div class="ph-stat-lbl">Gewonnen</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- All partners -->
+      <div class="sec-hdr">
+        <span class="sec-title">Alle partners (3)</span>
+      </div>
+
+      <div class="partner-items">
+
+        <!-- Tim Bakker -->
+        <div class="partner-item">
+          <div class="partner-item-top">
+            <div class="pi-avatar" style="background: linear-gradient(135deg, var(--c-green), var(--rank-5)); color: var(--c-black);">TB</div>
+            <div class="pi-info">
+              <div class="pi-name">Tim Bakker</div>
+              <div class="pi-meta">8 toernooien · Intermediair</div>
+            </div>
+            <div class="pi-win-circle" style="border-color: var(--c-green); color: var(--c-green);">
+              <div class="pi-win-pct">50%</div>
+              <div class="pi-win-lbl">Win</div>
+            </div>
+          </div>
+          <div class="partner-item-history">
+            <div class="history-label">Recente wedstrijden</div>
+            <div class="history-dots">
+              <div class="h-dot win">W</div>
+              <div class="h-dot win">W</div>
+              <div class="h-dot loss">L</div>
+              <div class="h-dot win">W</div>
+              <div class="h-dot loss">L</div>
+              <div class="h-dot loss">L</div>
+              <div class="h-dot win">W</div>
+              <div class="h-dot loss">L</div>
+            </div>
+          </div>
+          <div class="partner-item-footer">
+            <a href="toernooien.html" class="pi-btn primary">Samen inschrijven</a>
+            <button class="pi-btn secondary">Profiel</button>
+          </div>
+        </div>
+
+        <!-- Joost van den Berg -->
+        <div class="partner-item">
+          <div class="partner-item-top">
+            <div class="pi-avatar" style="background: linear-gradient(135deg, var(--c-lime), var(--c-green)); color: var(--c-black);">JB</div>
+            <div class="pi-info">
+              <div class="pi-name">Joost van den Berg</div>
+              <div class="pi-meta">3 toernooien · Intermediair</div>
+            </div>
+            <div class="pi-win-circle" style="border-color: var(--c-gold); color: var(--c-gold);">
+              <div class="pi-win-pct">33%</div>
+              <div class="pi-win-lbl">Win</div>
+            </div>
+          </div>
+          <div class="partner-item-history">
+            <div class="history-label">Recente wedstrijden</div>
+            <div class="history-dots">
+              <div class="h-dot win">W</div>
+              <div class="h-dot loss">L</div>
+              <div class="h-dot loss">L</div>
+              <div class="h-dot empty">·</div>
+              <div class="h-dot empty">·</div>
+              <div class="h-dot empty">·</div>
+              <div class="h-dot empty">·</div>
+              <div class="h-dot empty">·</div>
+            </div>
+          </div>
+          <div class="partner-item-footer">
+            <a href="toernooien.html" class="pi-btn primary">Samen inschrijven</a>
+            <button class="pi-btn secondary">Profiel</button>
+          </div>
+        </div>
+
+        <!-- Rein Hoekstra -->
+        <div class="partner-item">
+          <div class="partner-item-top">
+            <div class="pi-avatar" style="background: var(--c-slate); border: 1px solid var(--c-border); color: var(--c-gray);">RH</div>
+            <div class="pi-info">
+              <div class="pi-name">Rein Hoekstra</div>
+              <div class="pi-meta">1 toernooi · Beginner</div>
+            </div>
+            <div class="pi-win-circle" style="border-color: var(--c-border); color: var(--c-gray);">
+              <div class="pi-win-pct">0%</div>
+              <div class="pi-win-lbl">Win</div>
+            </div>
+          </div>
+          <div class="partner-item-history">
+            <div class="history-label">Recente wedstrijden</div>
+            <div class="history-dots">
+              <div class="h-dot loss">L</div>
+              <div class="h-dot empty">·</div>
+              <div class="h-dot empty">·</div>
+              <div class="h-dot empty">·</div>
+              <div class="h-dot empty">·</div>
+              <div class="h-dot empty">·</div>
+              <div class="h-dot empty">·</div>
+              <div class="h-dot empty">·</div>
+            </div>
+          </div>
+          <div class="partner-item-footer">
+            <a href="toernooien.html" class="pi-btn primary">Samen inschrijven</a>
+            <button class="pi-btn secondary">Profiel</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Add partner CTA -->
+      <div style="padding: 16px var(--pad) 24px;">
+        <button style="
+          width: 100%;
+          height: 48px;
+          background: transparent;
+          border: 1px dashed var(--c-border);
+          border-radius: var(--r-md);
+          font-family: var(--f-display);
+          font-size: 13px;
+          font-weight: 700;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          color: var(--c-gray);
+          cursor: pointer;
+        ">
+          + Partner uitnodigen
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Tab bar -->
+    <nav class="tab-bar">
+      <a href="home.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <span class="tab-label">Home</span>
+      </a>
+      <a href="toernooien.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
+        <span class="tab-label">Toernooien</span>
+      </a>
+      <a href="inschrijvingen.html" class="tab-item tab-center">
+        <div class="tab-center-btn">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <span class="tab-label">Inschrijven</span>
+      </a>
+      <a href="resultaten.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <span class="tab-label">Resultaten</span>
+      </a>
+      <a href="profiel.html" class="tab-item active">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <span class="tab-label">Profiel</span>
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

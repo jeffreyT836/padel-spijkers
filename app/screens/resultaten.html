@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Resultaten — Bandeja Padel</title>
+  <link rel="stylesheet" href="../css/app.css">
+  <style>
+    /* ─── SUMMARY BAR ─── */
+    .results-summary {
+      padding: 16px var(--pad) 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .res-tile {
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      padding: 12px 8px;
+      text-align: center;
+    }
+    .res-tile-num {
+      font-family: var(--f-display);
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .res-tile-lbl {
+      font-size: 9px;
+      color: var(--c-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 3px;
+    }
+
+    /* ─── FILTER BAR ─── */
+    .filter-row {
+      padding: 16px var(--pad) 0;
+      display: flex;
+      gap: 8px;
+    }
+    .filter-btn {
+      flex: 1;
+      height: 36px;
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-sm);
+      font-family: var(--f-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--c-gray);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-btn.active {
+      background: var(--c-green);
+      border-color: var(--c-green);
+      color: var(--c-black);
+    }
+
+    /* ─── RESULT CARD ─── */
+    .result-list {
+      padding: 16px var(--pad) 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .result-card {
+      background: var(--c-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+    }
+    .result-card-top {
+      display: flex;
+      align-items: center;
+      padding: 12px 14px;
+      gap: 12px;
+    }
+    .result-outcome {
+      width: 44px; height: 44px;
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+    }
+    .result-outcome.win {
+      background: rgba(46,204,113,0.15);
+      border: 1px solid rgba(46,204,113,0.3);
+      color: var(--c-green);
+    }
+    .result-outcome.loss {
+      background: rgba(255,85,85,0.1);
+      border: 1px solid rgba(255,85,85,0.2);
+      color: var(--c-red);
+    }
+
+    .result-main { flex: 1; }
+    .result-tourney-name {
+      font-family: var(--f-display);
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 3px;
+    }
+    .result-meta {
+      font-size: 11px;
+      color: var(--c-gray);
+      display: flex;
+      gap: 8px;
+    }
+
+    .result-score-block {
+      text-align: right;
+    }
+    .result-score {
+      font-family: var(--f-display);
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .result-score.win { color: var(--c-green); }
+    .result-score.loss { color: var(--c-red); }
+    .result-round {
+      font-size: 9px;
+      color: var(--c-gray);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .result-card-bottom {
+      border-top: 1px solid var(--c-border);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .result-partner-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .rp-avatar {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--c-green), var(--rank-5));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display);
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--c-black);
+    }
+    .rp-name { font-size: 12px; font-weight: 500; }
+    .result-vs {
+      flex: 1;
+      text-align: center;
+      font-size: 10px;
+      color: var(--c-gray);
+    }
+    .result-opponent {
+      font-size: 11px;
+      color: var(--c-gray);
+      font-weight: 500;
+    }
+
+    /* Month divider */
+    .month-div {
+      padding: 20px var(--pad) 8px;
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-gray);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .month-div::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--c-border);
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Status bar -->
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <span class="status-icon">●●●</span>
+        <span class="status-icon">WiFi</span>
+        <span class="status-icon">⚡</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="app-header">
+      <a href="profiel.html" class="header-back">‹</a>
+      <div class="header-title">Resultaten</div>
+    </div>
+
+    <div class="scroll-area">
+      <!-- Summary -->
+      <div class="results-summary">
+        <div class="res-tile">
+          <div class="res-tile-num">12</div>
+          <div class="res-tile-lbl">Gespeeld</div>
+        </div>
+        <div class="res-tile">
+          <div class="res-tile-num" style="color:var(--c-green);">4</div>
+          <div class="res-tile-lbl">Gewonnen</div>
+        </div>
+        <div class="res-tile">
+          <div class="res-tile-num" style="color:var(--c-red);">8</div>
+          <div class="res-tile-lbl">Verloren</div>
+        </div>
+        <div class="res-tile">
+          <div class="res-tile-num" style="color:var(--c-gold);">33%</div>
+          <div class="res-tile-lbl">Win rate</div>
+        </div>
+      </div>
+
+      <!-- Filter -->
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="setFilter(this,'alle')">Alle</button>
+        <button class="filter-btn" onclick="setFilter(this,'win')">Gewonnen</button>
+        <button class="filter-btn" onclick="setFilter(this,'loss')">Verloren</button>
+      </div>
+
+      <!-- Results -->
+      <div class="month-div">April 2026</div>
+      <div class="result-list">
+
+        <div class="result-card" data-outcome="win">
+          <div class="result-card-top">
+            <div class="result-outcome win">WIN</div>
+            <div class="result-main">
+              <div class="result-tourney-name">Lake Seven Rotterdam</div>
+              <div class="result-meta">
+                <span>12 apr 2026</span>
+                <span>·</span>
+                <span>Intermediair</span>
+              </div>
+            </div>
+            <div class="result-score-block">
+              <div class="result-score win">6–3</div>
+              <div class="result-round">Groepsfase</div>
+            </div>
+          </div>
+          <div class="result-card-bottom">
+            <div class="result-partner-chip">
+              <div class="rp-avatar">TB</div>
+              <span class="rp-name">Tim Bakker</span>
+            </div>
+            <div class="result-vs">vs</div>
+            <div class="result-opponent">Peters / Vlam</div>
+          </div>
+        </div>
+
+        <div class="result-card" data-outcome="win">
+          <div class="result-card-top">
+            <div class="result-outcome win">WIN</div>
+            <div class="result-main">
+              <div class="result-tourney-name">Lake Seven Rotterdam</div>
+              <div class="result-meta">
+                <span>12 apr 2026</span>
+                <span>·</span>
+                <span>Intermediair</span>
+              </div>
+            </div>
+            <div class="result-score-block">
+              <div class="result-score win">7–5</div>
+              <div class="result-round">Groepsfase</div>
+            </div>
+          </div>
+          <div class="result-card-bottom">
+            <div class="result-partner-chip">
+              <div class="rp-avatar">TB</div>
+              <span class="rp-name">Tim Bakker</span>
+            </div>
+            <div class="result-vs">vs</div>
+            <div class="result-opponent">Kooij / Smeets</div>
+          </div>
+        </div>
+
+        <div class="result-card" data-outcome="loss">
+          <div class="result-card-top">
+            <div class="result-outcome loss">LOSS</div>
+            <div class="result-main">
+              <div class="result-tourney-name">Lake Seven Rotterdam</div>
+              <div class="result-meta">
+                <span>12 apr 2026</span>
+                <span>·</span>
+                <span>Intermediair</span>
+              </div>
+            </div>
+            <div class="result-score-block">
+              <div class="result-score loss">4–6</div>
+              <div class="result-round">Kwartfinale</div>
+            </div>
+          </div>
+          <div class="result-card-bottom">
+            <div class="result-partner-chip">
+              <div class="rp-avatar">TB</div>
+              <span class="rp-name">Tim Bakker</span>
+            </div>
+            <div class="result-vs">vs</div>
+            <div class="result-opponent">Hendriks / Van der Laan</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="month-div">Maart 2026</div>
+      <div class="result-list">
+
+        <div class="result-card" data-outcome="win">
+          <div class="result-card-top">
+            <div class="result-outcome win">WIN</div>
+            <div class="result-main">
+              <div class="result-tourney-name">Groen Geel Padel</div>
+              <div class="result-meta">
+                <span>22 mrt 2026</span>
+                <span>·</span>
+                <span>Intermediair</span>
+              </div>
+            </div>
+            <div class="result-score-block">
+              <div class="result-score win">6–4</div>
+              <div class="result-round">Groepsfase</div>
+            </div>
+          </div>
+          <div class="result-card-bottom">
+            <div class="result-partner-chip">
+              <div class="rp-avatar" style="background:linear-gradient(135deg,var(--c-lime),var(--c-green));">JB</div>
+              <span class="rp-name">Joost van den Berg</span>
+            </div>
+            <div class="result-vs">vs</div>
+            <div class="result-opponent">Bakker / Mol</div>
+          </div>
+        </div>
+
+        <div class="result-card" data-outcome="loss">
+          <div class="result-card-top">
+            <div class="result-outcome loss">LOSS</div>
+            <div class="result-main">
+              <div class="result-tourney-name">Groen Geel Padel</div>
+              <div class="result-meta">
+                <span>22 mrt 2026</span>
+                <span>·</span>
+                <span>Intermediair</span>
+              </div>
+            </div>
+            <div class="result-score-block">
+              <div class="result-score loss">3–6</div>
+              <div class="result-round">Groepsfase</div>
+            </div>
+          </div>
+          <div class="result-card-bottom">
+            <div class="result-partner-chip">
+              <div class="rp-avatar" style="background:linear-gradient(135deg,var(--c-lime),var(--c-green));">JB</div>
+              <span class="rp-name">Joost van den Berg</span>
+            </div>
+            <div class="result-vs">vs</div>
+            <div class="result-opponent">De Wit / Huisman</div>
+          </div>
+        </div>
+
+        <div class="result-card" data-outcome="loss">
+          <div class="result-card-top">
+            <div class="result-outcome loss">LOSS</div>
+            <div class="result-main">
+              <div class="result-tourney-name">Groen Geel Padel</div>
+              <div class="result-meta">
+                <span>22 mrt 2026</span>
+                <span>·</span>
+                <span>Intermediair</span>
+              </div>
+            </div>
+            <div class="result-score-block">
+              <div class="result-score loss">5–7</div>
+              <div class="result-round">Halve finale</div>
+            </div>
+          </div>
+          <div class="result-card-bottom">
+            <div class="result-partner-chip">
+              <div class="rp-avatar" style="background:linear-gradient(135deg,var(--c-lime),var(--c-green));">JB</div>
+              <span class="rp-name">Joost van den Berg</span>
+            </div>
+            <div class="result-vs">vs</div>
+            <div class="result-opponent">Janssen / Oosterveld</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="month-div">Februari 2026</div>
+      <div class="result-list">
+
+        <div class="result-card" data-outcome="loss">
+          <div class="result-card-top">
+            <div class="result-outcome loss">LOSS</div>
+            <div class="result-main">
+              <div class="result-tourney-name">Urban Sports Club</div>
+              <div class="result-meta">
+                <span>14 feb 2026</span>
+                <span>·</span>
+                <span>Intermediair</span>
+              </div>
+            </div>
+            <div class="result-score-block">
+              <div class="result-score loss">2–6</div>
+              <div class="result-round">Groepsfase</div>
+            </div>
+          </div>
+          <div class="result-card-bottom">
+            <div class="result-partner-chip">
+              <div class="rp-avatar" style="background: var(--c-slate); border: 1px solid var(--c-border); color:var(--c-gray);">RH</div>
+              <span class="rp-name">Rein Hoekstra</span>
+            </div>
+            <div class="result-vs">vs</div>
+            <div class="result-opponent">Vermeer / Claassen</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="height: 24px;"></div>
+    </div>
+
+    <!-- Tab bar -->
+    <nav class="tab-bar">
+      <a href="home.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <span class="tab-label">Home</span>
+      </a>
+      <a href="toernooien.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
+        <span class="tab-label">Toernooien</span>
+      </a>
+      <a href="inschrijvingen.html" class="tab-item tab-center">
+        <div class="tab-center-btn">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <span class="tab-label">Inschrijven</span>
+      </a>
+      <a href="resultaten.html" class="tab-item active">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <span class="tab-label">Resultaten</span>
+      </a>
+      <a href="profiel.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <span class="tab-label">Profiel</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    function setFilter(btn, type) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.result-card').forEach(card => {
+        if (type === 'alle' || card.dataset.outcome === type) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brand Guidelines — Bandeja Padel Spijkers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      /* === CORE BRAND COLORS === */
+      --color-court-black:  #0E1014;   /* primary dark */
+      --color-night-blue:   #111827;   /* section backgrounds */
+      --color-energy-green: #2ECC71;   /* primary accent — energy, sport, go */
+      --color-lime-active:  #A8E63D;   /* secondary accent — dynamic highlight */
+      --color-off-white:    #F4F6F0;   /* primary text on dark */
+      --color-mid-gray:     #8A9099;   /* secondary text / captions */
+      --color-slate:        #1E2530;   /* card / panel backgrounds */
+      --color-border:       #2A3140;   /* subtle dividers */
+
+      /* === TYPOGRAPHY === */
+      --font-display: 'Barlow Condensed', Arial Narrow, sans-serif;
+      --font-body:    'Barlow', Arial, sans-serif;
+
+      /* === SPACING SCALE === */
+      --sp-xs:  4px;
+      --sp-sm:  8px;
+      --sp-md:  16px;
+      --sp-lg:  32px;
+      --sp-xl:  64px;
+      --sp-2xl: 128px;
+
+      /* === MOTION === */
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-court-black);
+      color: var(--color-off-white);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─────────────────────────────────────────────
+       LAYOUT
+    ───────────────────────────────────────────── */
+    .page-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--sp-lg);
+    }
+
+    section {
+      padding: var(--sp-2xl) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    section:last-of-type { border-bottom: none; }
+
+    /* ─────────────────────────────────────────────
+       COVER
+    ───────────────────────────────────────────── */
+    .cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: var(--sp-xl) var(--sp-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(46,204,113,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 10% 80%, rgba(168,230,61,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Court grid background */
+    .cover::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .cover-inner { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; width: 100%; }
+
+    .cover-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--color-energy-green);
+      margin-bottom: var(--sp-md);
+    }
+
+    .cover-title {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 9vw, 120px);
+      font-weight: 800;
+      line-height: 0.92;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    .cover-title .accent { color: var(--color-energy-green); }
+
+    .cover-sub {
+      font-size: 18px;
+      color: var(--color-mid-gray);
+      margin-top: var(--sp-lg);
+      max-width: 480px;
+      line-height: 1.5;
+    }
+
+    .cover-meta {
+      display: flex;
+      gap: var(--sp-xl);
+      margin-top: var(--sp-xl);
+      padding-top: var(--sp-lg);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .cover-meta-item { font-size: 12px; color: var(--color-mid-gray); }
+    .cover-meta-item strong { display: block; color: var(--color-off-white); font-size: 14px; margin-bottom: 2px; }
+
+    /* ─────────────────────────────────────────────
+       SECTION HEADERS
+    ───────────────────────────────────────────── */
+    .section-index {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-energy-green);
+      margin-bottom: var(--sp-sm);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      margin-bottom: var(--sp-lg);
+    }
+
+    .section-lead {
+      font-size: 17px;
+      color: var(--color-mid-gray);
+      max-width: 600px;
+      line-height: 1.65;
+      margin-bottom: var(--sp-xl);
+    }
+
+    /* ─────────────────────────────────────────────
+       GRID UTILITIES
+    ───────────────────────────────────────────── */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-md); }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-md); }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-md); }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    }
+
+    /* ─────────────────────────────────────────────
+       01 — IDENTITY
+    ───────────────────────────────────────────── */
+    .identity-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-md); margin-top: var(--sp-xl); }
+
+    .identity-card {
+      background: var(--color-slate);
+      border: 1px solid var(--color-border);
+      border-radius: 2px;
+      padding: var(--sp-lg);
+    }
+
+    .identity-card .ic-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-energy-green);
+      margin-bottom: var(--sp-sm);
+    }
+
+    .identity-card .ic-value {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .identity-card .ic-body {
+      font-size: 14px;
+      color: var(--color-mid-gray);
+      line-height: 1.6;
+      margin-top: var(--sp-sm);
+    }
+
+    .mission-block {
+      background: var(--color-slate);
+      border-left: 3px solid var(--color-energy-green);
+      padding: var(--sp-lg) var(--sp-xl);
+      border-radius: 0 2px 2px 0;
+      margin-top: var(--sp-xl);
+    }
+
+    .mission-block blockquote {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 600;
+      line-height: 1.35;
+      font-style: italic;
+    }
+
+    .mission-block cite {
+      display: block;
+      margin-top: var(--sp-md);
+      font-size: 13px;
+      color: var(--color-mid-gray);
+      font-style: normal;
+    }
+
+    /* ─────────────────────────────────────────────
+       02 — COLOR PALETTE
+    ───────────────────────────────────────────── */
+    .color-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-md); }
+
+    .color-swatch {
+      border-radius: 2px;
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+    }
+
+    .swatch-block {
+      height: 120px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: var(--sp-sm) var(--sp-md);
+    }
+
+    .swatch-block .swatch-hex {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      opacity: 0.7;
+      mix-blend-mode: difference;
+      color: white;
+    }
+
+    .swatch-meta {
+      background: var(--color-slate);
+      padding: var(--sp-md);
+    }
+
+    .swatch-meta .swatch-name {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .swatch-meta .swatch-use {
+      font-size: 12px;
+      color: var(--color-mid-gray);
+      margin-top: 4px;
+    }
+
+    .color-do-dont {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-md);
+      margin-top: var(--sp-lg);
+    }
+
+    .do-block, .dont-block {
+      background: var(--color-slate);
+      border: 1px solid var(--color-border);
+      border-radius: 2px;
+      padding: var(--sp-lg);
+    }
+
+    .do-block { border-top: 3px solid var(--color-energy-green); }
+    .dont-block { border-top: 3px solid #e53e3e; }
+
+    .do-block .tag { color: var(--color-energy-green); }
+    .dont-block .tag { color: #e53e3e; }
+
+    .tag {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: var(--sp-sm);
+      display: block;
+    }
+
+    .do-block ul, .dont-block ul {
+      list-style: none;
+      font-size: 14px;
+      color: var(--color-mid-gray);
+      line-height: 2;
+    }
+
+    /* ─────────────────────────────────────────────
+       03 — TYPOGRAPHY
+    ───────────────────────────────────────────── */
+    .type-specimen {
+      background: var(--color-slate);
+      border: 1px solid var(--color-border);
+      border-radius: 2px;
+      padding: var(--sp-xl);
+      margin-bottom: var(--sp-md);
+    }
+
+    .type-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-energy-green);
+      margin-bottom: var(--sp-sm);
+    }
+
+    .type-display {
+      font-family: var(--font-display);
+      font-size: 72px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .type-heading {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .type-subheading {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .type-body-text {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--color-mid-gray);
+    }
+
+    .type-caption {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--color-mid-gray);
+      letter-spacing: 0.04em;
+    }
+
+    .type-meta {
+      margin-top: var(--sp-md);
+      padding-top: var(--sp-md);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      gap: var(--sp-lg);
+    }
+
+    .type-meta span {
+      font-size: 11px;
+      color: var(--color-mid-gray);
+    }
+
+    .type-meta strong { color: var(--color-off-white); }
+
+    .font-stack {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-md);
+      margin-top: var(--sp-xl);
+    }
+
+    .font-card {
+      background: var(--color-slate);
+      border: 1px solid var(--color-border);
+      border-radius: 2px;
+      padding: var(--sp-lg);
+    }
+
+    .font-card .fc-name {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-energy-green);
+      margin-bottom: var(--sp-sm);
+    }
+
+    .font-card .fc-sample {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: var(--sp-sm);
+    }
+
+    .font-card .fc-weights {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .fc-w { font-size: 14px; color: var(--color-mid-gray); }
+
+    /* ─────────────────────────────────────────────
+       04 — LOGO USAGE
+    ───────────────────────────────────────────── */
+    .logo-demo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-md);
+      margin-top: var(--sp-xl);
+    }
+
+    .logo-demo {
+      border: 1px solid var(--color-border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .logo-demo-bg {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-placeholder {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border: 2px solid currentColor;
+      padding: 12px 24px;
+      display: inline-block;
+    }
+
+    .logo-demo-label {
+      background: var(--color-slate);
+      padding: var(--sp-md);
+      font-size: 12px;
+      color: var(--color-mid-gray);
+    }
+
+    .logo-rules {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-md);
+      margin-top: var(--sp-lg);
+    }
+
+    .rule-item {
+      background: var(--color-slate);
+      border: 1px solid var(--color-border);
+      border-radius: 2px;
+      padding: var(--sp-lg);
+    }
+
+    .rule-item h4 {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--sp-sm);
+      color: var(--color-energy-green);
+    }
+
+    .rule-item p { font-size: 14px; color: var(--color-mid-gray); line-height: 1.6; }
+
+    /* ─────────────────────────────────────────────
+       05 — VOICE & TONE
+    ───────────────────────────────────────────── */
+    .tone-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-md);
+      margin-top: var(--sp-xl);
+    }
+
+    .tone-card {
+      background: var(--color-slate);
+      border: 1px solid var(--color-border);
+      border-radius: 2px;
+      padding: var(--sp-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tone-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--color-energy-green);
+    }
+
+    .tone-card h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: var(--sp-sm);
+    }
+
+    .tone-card p { font-size: 14px; color: var(--color-mid-gray); line-height: 1.6; }
+
+    .voice-examples {
+      margin-top: var(--sp-xl);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-md);
+    }
+
+    .voice-ex {
+      background: var(--color-slate);
+      border: 1px solid var(--color-border);
+      border-radius: 2px;
+      padding: var(--sp-lg);
+    }
+
+    .voice-ex .ve-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: var(--sp-sm);
+    }
+
+    .voice-ex .ve-label.good { color: var(--color-energy-green); }
+    .voice-ex .ve-label.bad  { color: #e53e3e; }
+
+    .voice-ex blockquote {
+      font-size: 15px;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* ─────────────────────────────────────────────
+       06 — GRAPHIC LANGUAGE
+    ───────────────────────────────────────────── */
+    .graphic-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-md);
+      margin-top: var(--sp-xl);
+    }
+
+    .graphic-item {
+      background: var(--color-slate);
+      border: 1px solid var(--color-border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .graphic-preview {
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-night-blue);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Court lines element */
+    .el-court {
+      position: absolute;
+      inset: 0;
+    }
+
+    .el-court::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 80px;
+      border: 2px solid rgba(46,204,113,0.5);
+    }
+
+    .el-court::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 80px;
+      border-right: 2px solid rgba(46,204,113,0.3);
+      border-left: 2px solid rgba(46,204,113,0.3);
+    }
+
+    /* Speed lines element */
+    .el-speed {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .el-speed::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 3px;
+      background: var(--color-energy-green);
+      box-shadow: -12px 0 0 rgba(46,204,113,0.4), -24px 0 0 rgba(46,204,113,0.2), -40px 0 0 rgba(46,204,113,0.08);
+    }
+
+    /* Diamond grid element */
+    .el-diamond {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .el-diamond::before {
+      content: '';
+      width: 80px; height: 80px;
+      border: 2px solid var(--color-energy-green);
+      transform: rotate(45deg);
+    }
+
+    .el-diamond::after {
+      content: '';
+      position: absolute;
+      width: 50px; height: 50px;
+      border: 1px solid rgba(46,204,113,0.4);
+      transform: rotate(45deg);
+    }
+
+    .graphic-item-label {
+      padding: var(--sp-md);
+      background: var(--color-slate);
+    }
+
+    .graphic-item-label h4 {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .graphic-item-label p { font-size: 12px; color: var(--color-mid-gray); }
+
+    /* ─────────────────────────────────────────────
+       07 — BUTTON & UI COMPONENTS
+    ───────────────────────────────────────────── */
+    .component-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-md);
+      margin-top: var(--sp-xl);
+    }
+
+    .component-card {
+      background: var(--color-slate);
+      border: 1px solid var(--color-border);
+      border-radius: 2px;
+      padding: var(--sp-xl) var(--sp-lg);
+    }
+
+    .component-card h4 {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-energy-green);
+      margin-bottom: var(--sp-lg);
+    }
+
+    .component-demo {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-md);
+      align-items: flex-start;
+    }
+
+    .btn {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--color-energy-green);
+      color: var(--color-court-black);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-off-white);
+      border: 1px solid var(--color-off-white);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--color-energy-green);
+      border: 1px solid var(--color-energy-green);
+    }
+
+    .badge {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .badge-green { background: rgba(46,204,113,0.15); color: var(--color-energy-green); }
+    .badge-gray  { background: var(--color-border); color: var(--color-mid-gray); }
+    .badge-lime  { background: rgba(168,230,61,0.15); color: var(--color-lime-active); }
+
+    /* ─────────────────────────────────────────────
+       08 — BRAND APPLICATIONS
+    ───────────────────────────────────────────── */
+    .app-card {
+      background: var(--color-slate);
+      border: 1px solid var(--color-border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: var(--sp-lg);
+    }
+
+    /* Mock social post */
+    .mock-social {
+      background: var(--color-night-blue);
+      aspect-ratio: 1;
+      max-width: 400px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: var(--sp-lg);
+      overflow: hidden;
+    }
+
+    .mock-social::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 100% 60% at 50% 0%, rgba(46,204,113,0.1) 0%, transparent 70%),
+        linear-gradient(to bottom, transparent 40%, rgba(14,16,20,0.9) 100%);
+    }
+
+    .mock-social .ms-content { position: relative; z-index: 1; }
+    .mock-social .ms-tag {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-energy-green);
+      margin-bottom: 8px;
+    }
+
+    .mock-social .ms-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    /* Mock tournament card */
+    .mock-event {
+      background: var(--color-court-black);
+      border: 1px solid var(--color-border);
+      border-radius: 2px;
+      padding: var(--sp-lg);
+      max-width: 340px;
+    }
+
+    .mock-event .me-type {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-energy-green);
+      margin-bottom: 8px;
+    }
+
+    .mock-event .me-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: var(--sp-md);
+    }
+
+    .mock-event .me-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: var(--sp-lg);
+    }
+
+    .mock-event .me-detail {
+      display: flex;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--color-mid-gray);
+    }
+
+    .mock-event .me-detail strong { color: var(--color-off-white); }
+
+    .mock-event-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: var(--sp-md);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .me-price {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .applications-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-lg);
+      margin-top: var(--sp-xl);
+    }
+
+    /* ─────────────────────────────────────────────
+       TOC / NAV
+    ───────────────────────────────────────────── */
+    .toc {
+      position: sticky;
+      top: 0;
+      background: rgba(14,16,20,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+      z-index: 100;
+      padding: 0 var(--sp-lg);
+    }
+
+    .toc-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: var(--sp-lg);
+      height: 52px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .toc-inner::-webkit-scrollbar { display: none; }
+
+    .toc-brand {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      color: var(--color-energy-green);
+      margin-right: var(--sp-md);
+      flex-shrink: 0;
+    }
+
+    .toc-link {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-mid-gray);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: color 0.2s;
+    }
+
+    .toc-link:hover { color: var(--color-off-white); }
+
+    /* ─────────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────────── */
+    .doc-footer {
+      padding: var(--sp-xl) var(--sp-lg);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .doc-footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .doc-footer .brand-mark {
+      font-family: var(--font-display);
+      font-size: 42px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .doc-footer .brand-mark span { color: var(--color-energy-green); }
+
+    .doc-footer-meta {
+      text-align: right;
+      font-size: 12px;
+      color: var(--color-mid-gray);
+      line-height: 1.8;
+    }
+
+    @media (max-width: 768px) {
+      .identity-cards, .tone-grid, .graphic-grid, .logo-demo-grid, .font-stack,
+      .component-grid, .applications-grid, .color-do-dont, .voice-examples,
+      .logo-rules { grid-template-columns: 1fr; }
+
+      .color-grid { grid-template-columns: 1fr 1fr; }
+
+      .cover-meta { flex-wrap: wrap; gap: var(--sp-md); }
+
+      .doc-footer-inner { flex-direction: column; align-items: flex-start; gap: var(--sp-lg); }
+      .doc-footer-meta { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- STICKY NAV -->
+<nav class="toc">
+  <div class="toc-inner">
+    <span class="toc-brand">BPS Brand</span>
+    <a href="#identity"    class="toc-link">01 Identity</a>
+    <a href="#color"       class="toc-link">02 Color</a>
+    <a href="#typography"  class="toc-link">03 Typography</a>
+    <a href="#logo"        class="toc-link">04 Logo</a>
+    <a href="#voice"       class="toc-link">05 Voice & Tone</a>
+    <a href="#graphic"     class="toc-link">06 Graphic Language</a>
+    <a href="#components"  class="toc-link">07 Components</a>
+    <a href="#applications" class="toc-link">08 Applications</a>
+  </div>
+</nav>
+
+<!-- COVER -->
+<header class="cover">
+  <div class="cover-inner">
+    <p class="cover-label">Brand Guidelines · Version 1.0 · 2026</p>
+    <h1 class="cover-title">Bandeja<br/><span class="accent">Padel</span><br/>Spijkers</h1>
+    <p class="cover-sub">The visual identity system for Rotterdam's go-to padel tournament and coaching brand.</p>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <strong>Founded by</strong>
+        Damian Spijkers
+      </div>
+      <div class="cover-meta-item">
+        <strong>Location</strong>
+        Rotterdam, NL
+      </div>
+      <div class="cover-meta-item">
+        <strong>Services</strong>
+        Tournaments, Lessen &amp; Clinics
+      </div>
+      <div class="cover-meta-item">
+        <strong>Instagram</strong>
+        @bandeja_padel_events
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ════════════════════════════════════════════
+       01 — BRAND IDENTITY
+  ═══════════════════════════════════════════════ -->
+  <section id="identity">
+    <div class="page-wrap">
+      <p class="section-index">01 / Brand Identity</p>
+      <h2 class="section-title">Who We Are</h2>
+      <p class="section-lead">Bandeja Padel Spijkers is where serious fun meets professional coaching. Founded by KNLTB-certified instructor Damian Spijkers, the brand brings tournament culture, expert lessons, and a tight-knit padel community to Rotterdam and beyond.</p>
+
+      <div class="identity-cards">
+        <div class="identity-card">
+          <p class="ic-label">Brand Name</p>
+          <p class="ic-value">Bandeja Padel Spijkers</p>
+          <p class="ic-body">Shortened in-use as "Padel Spijkers" or "BPS". "Bandeja" is a signature padel overhead shot — choosing it as the name signals insider knowledge and craft.</p>
+        </div>
+        <div class="identity-card">
+          <p class="ic-label">Tagline</p>
+          <p class="ic-value">Toernooien, lessen en clinics.</p>
+          <p class="ic-body">Functional and direct. States exactly what BPS offers. In English contexts: "Tournaments, lessons and clinics."</p>
+        </div>
+        <div class="identity-card">
+          <p class="ic-label">Positioning</p>
+          <p class="ic-value">Community-First. Coach-Led.</p>
+          <p class="ic-body">Not a facility — a movement organizer. BPS creates the events, trains the players, and builds the network. Accessible to all levels, driven by expertise.</p>
+        </div>
+      </div>
+
+      <div class="mission-block">
+        <blockquote>"Een levendige gemeenschap van padelspelers creëren waar plezier, competitie en persoonlijke ontwikkeling hand in hand gaan."</blockquote>
+        <cite>— Brand Mission · Bandeja Padel Spijkers</cite>
+      </div>
+
+      <div class="identity-cards" style="margin-top: var(--sp-md);">
+        <div class="identity-card">
+          <p class="ic-label">Value 01</p>
+          <p class="ic-value">Plezier</p>
+          <p class="ic-body">Fun is non-negotiable. Every tournament, lesson, and clinic is designed to leave players energized and wanting more.</p>
+        </div>
+        <div class="identity-card">
+          <p class="ic-label">Value 02</p>
+          <p class="ic-value">Kennis &amp; Ervaring</p>
+          <p class="ic-body">KNLTB-certified expertise. Real court time in Barcelona. Coaching that comes from lived experience, not theory alone.</p>
+        </div>
+        <div class="identity-card">
+          <p class="ic-label">Value 03</p>
+          <p class="ic-value">Prijs / Kwaliteit</p>
+          <p class="ic-body">Professional-grade events and coaching at accessible prices. BPS punches above its weight — every time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       02 — COLOR
+  ═══════════════════════════════════════════════ -->
+  <section id="color">
+    <div class="page-wrap">
+      <p class="section-index">02 / Color Palette</p>
+      <h2 class="section-title">Color System</h2>
+      <p class="section-lead">Built around the padel court — the contrast of a lit court at night, the electric green of AstroTurf, and the sharp energy of competitive sport. Dark-first with high-impact accents.</p>
+
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#2ECC71;">
+            <span class="swatch-hex">#2ECC71</span>
+          </div>
+          <div class="swatch-meta">
+            <p class="swatch-name">Energy Green</p>
+            <p class="swatch-use">Primary accent · CTAs · highlights · brand mark</p>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#A8E63D;">
+            <span class="swatch-hex">#A8E63D</span>
+          </div>
+          <div class="swatch-meta">
+            <p class="swatch-name">Lime Active</p>
+            <p class="swatch-use">Dynamic highlight · hover states · energy accents</p>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#0E1014;">
+            <span class="swatch-hex">#0E1014</span>
+          </div>
+          <div class="swatch-meta">
+            <p class="swatch-name">Court Black</p>
+            <p class="swatch-use">Primary background · dominant surface</p>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#1E2530;">
+            <span class="swatch-hex">#1E2530</span>
+          </div>
+          <div class="swatch-meta">
+            <p class="swatch-name">Slate</p>
+            <p class="swatch-use">Cards · panels · elevated surfaces</p>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#F4F6F0;">
+            <span class="swatch-hex">#F4F6F0</span>
+          </div>
+          <div class="swatch-meta">
+            <p class="swatch-name">Off-White</p>
+            <p class="swatch-use">Primary text · headings on dark</p>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#8A9099;">
+            <span class="swatch-hex">#8A9099</span>
+          </div>
+          <div class="swatch-meta">
+            <p class="swatch-name">Mid Gray</p>
+            <p class="swatch-use">Body text · captions · secondary labels</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="color-do-dont">
+        <div class="do-block">
+          <span class="tag do-block">Do</span>
+          <ul>
+            <li>Use Energy Green for exactly one focal point per composition</li>
+            <li>Pair Court Black with Off-White for maximum legibility</li>
+            <li>Use Lime Active only for motion/hover — never static primary copy</li>
+            <li>Maintain a 4.5:1 contrast ratio minimum on all text</li>
+            <li>Let dark backgrounds dominate — accents earn their impact through restraint</li>
+          </ul>
+        </div>
+        <div class="dont-block">
+          <span class="tag dont-block">Don't</span>
+          <ul>
+            <li>Place green text on green backgrounds</li>
+            <li>Use white backgrounds with this palette — it breaks the brand feel</li>
+            <li>Use both green and lime as equally weighted competing accents</li>
+            <li>Add blue, purple, or red to the palette without explicit approval</li>
+            <li>Use Mid Gray for interactive elements — reserve it for support copy only</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       03 — TYPOGRAPHY
+  ═══════════════════════════════════════════════ -->
+  <section id="typography">
+    <div class="page-wrap">
+      <p class="section-index">03 / Typography</p>
+      <h2 class="section-title">Type System</h2>
+      <p class="section-lead">Two fonts. One display, one text. Together they balance athletic intensity with everyday readability — exactly like the sport itself.</p>
+
+      <div class="font-stack">
+        <div class="font-card">
+          <p class="fc-name">Display Font</p>
+          <p class="fc-sample" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800;">Barlow Condensed</p>
+          <p style="font-size: 13px; color: var(--color-mid-gray); margin-bottom: var(--sp-md);">
+            Used for all headlines, labels, CTAs, UI components, and wherever typographic impact is needed. Condensed letterforms pack energy into tight space — like a padel court.
+          </p>
+          <div class="fc-weights">
+            <span class="fc-w" style="font-family: 'Barlow Condensed'; font-weight: 400;">400 Regular — body labels, metadata</span>
+            <span class="fc-w" style="font-family: 'Barlow Condensed'; font-weight: 600;">600 SemiBold — navigation, captions</span>
+            <span class="fc-w" style="font-family: 'Barlow Condensed'; font-weight: 700;">700 Bold — section headings</span>
+            <span class="fc-w" style="font-family: 'Barlow Condensed'; font-weight: 800;">800 ExtraBold — display headlines</span>
+          </div>
+        </div>
+        <div class="font-card">
+          <p class="fc-name">Body Font</p>
+          <p class="fc-sample" style="font-family: 'Barlow', sans-serif; font-weight: 400;">Barlow</p>
+          <p style="font-size: 13px; color: var(--color-mid-gray); margin-bottom: var(--sp-md);">
+            Used for all body copy, descriptions, and longer-form content. From the same family as the display font — creating visual harmony without visual monotony.
+          </p>
+          <div class="fc-weights">
+            <span class="fc-w" style="font-family: 'Barlow'; font-weight: 400;">400 Regular — body paragraphs</span>
+            <span class="fc-w" style="font-family: 'Barlow'; font-weight: 500;">500 Medium — emphasized body</span>
+            <span class="fc-w" style="font-family: 'Barlow'; font-weight: 600;">600 SemiBold — inline emphasis</span>
+            <span class="fc-w" style="font-family: 'Barlow'; font-style: italic; font-weight: 400;">400 Italic — quotes, secondary voice</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Type scale -->
+      <div style="margin-top: var(--sp-lg);">
+        <div class="type-specimen">
+          <p class="type-label">Display — Barlow Condensed 800 / 72–120px / uppercase</p>
+          <p class="type-display">Padel<br/>Spijkers</p>
+          <div class="type-meta">
+            <span><strong>Use:</strong> Hero headlines, cover titles, campaign lead</span>
+            <span><strong>Letter-spacing:</strong> −0.02em</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <p class="type-label">Heading — Barlow Condensed 700 / 32–56px / uppercase</p>
+          <p class="type-heading">Aanmelden voor het Toernooi</p>
+          <div class="type-meta">
+            <span><strong>Use:</strong> Section headers, content headings</span>
+            <span><strong>Letter-spacing:</strong> −0.01em</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <p class="type-label">Subheading — Barlow Condensed 600 / 18–22px / uppercase</p>
+          <p class="type-subheading">Niveau Gemengd · Rotterdam · April 2026</p>
+          <div class="type-meta">
+            <span><strong>Use:</strong> Card subtitles, overlines, metadata labels</span>
+            <span><strong>Letter-spacing:</strong> +0.05em</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <p class="type-label">Body — Barlow 400 / 15–17px</p>
+          <p class="type-body-text">Bandeja Padel Spijkers organiseert toernooien voor alle niveaus in en rondom Rotterdam. Van beginners tot gevorderd — iedereen is welkom op de baan. Aanmelden kan via de website of rechtstreeks via Instagram.</p>
+          <div class="type-meta">
+            <span><strong>Use:</strong> Paragraphs, descriptions, email copy</span>
+            <span><strong>Line-height:</strong> 1.65</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <p class="type-label">Caption / Label — Barlow 400 / 11–13px / letter-spaced</p>
+          <p class="type-caption">TOERNOOI · LEVEL 4–7 · 12 APRIL 2026 · ROTTERDAM</p>
+          <div class="type-meta">
+            <span><strong>Use:</strong> Tags, timestamps, metadata, small labels</span>
+            <span><strong>Letter-spacing:</strong> +0.18em</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       04 — LOGO USAGE
+  ═══════════════════════════════════════════════ -->
+  <section id="logo">
+    <div class="page-wrap">
+      <p class="section-index">04 / Logo Usage</p>
+      <h2 class="section-title">Logo</h2>
+      <p class="section-lead">The Bandeja Padel Spijkers logo is the primary brand mark. It must always appear clearly, without modification, on approved background surfaces only.</p>
+
+      <div class="logo-demo-grid">
+        <div class="logo-demo">
+          <div class="logo-demo-bg" style="background: var(--color-court-black);">
+            <span class="logo-placeholder" style="color: var(--color-off-white);">BPS Logo</span>
+          </div>
+          <div class="logo-demo-label">Primary — on Court Black  ✓ Preferred</div>
+        </div>
+        <div class="logo-demo">
+          <div class="logo-demo-bg" style="background: var(--color-energy-green);">
+            <span class="logo-placeholder" style="color: var(--color-court-black);">BPS Logo</span>
+          </div>
+          <div class="logo-demo-label">Reversed — on Energy Green  ✓ Approved</div>
+        </div>
+        <div class="logo-demo">
+          <div class="logo-demo-bg" style="background: #F4F6F0;">
+            <span class="logo-placeholder" style="color: var(--color-court-black);">BPS Logo</span>
+          </div>
+          <div class="logo-demo-label">Light surface — on Off-White  ✓ Permitted</div>
+        </div>
+      </div>
+
+      <div class="logo-rules">
+        <div class="rule-item">
+          <h4>Clear Space</h4>
+          <p>Always maintain clear space equal to the height of the letter "B" in the logo around all four sides. Never allow other graphic elements to intrude on this zone.</p>
+        </div>
+        <div class="rule-item">
+          <h4>Minimum Size</h4>
+          <p>Digital: 120px wide minimum. Print: 25mm wide minimum. Below these sizes, use the monogram mark "BPS" in Barlow Condensed 800 instead.</p>
+        </div>
+        <div class="rule-item">
+          <h4>Do Not Alter</h4>
+          <p>Never stretch, skew, recolor, add drop shadows, apply gradients to, or place on a busy photographic background without a dark overlay.</p>
+        </div>
+        <div class="rule-item">
+          <h4>File Formats</h4>
+          <p>Use SVG for all digital contexts. Use EPS/PDF for print. PNG (with transparency) is acceptable for social media use only. Never use the JPG version on colored backgrounds.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       05 — VOICE & TONE
+  ═══════════════════════════════════════════════ -->
+  <section id="voice">
+    <div class="page-wrap">
+      <p class="section-index">05 / Voice &amp; Tone</p>
+      <h2 class="section-title">Voice &amp; Tone</h2>
+      <p class="section-lead">BPS speaks like a passionate coach with a dry sense of humor — knowledgeable without being elitist, energetic without being loud. Dutch directness meets court-side warmth.</p>
+
+      <div class="tone-grid">
+        <div class="tone-card">
+          <h3>Energetic</h3>
+          <p>Sport creates momentum. Writing should too. Sentences are punchy, verbs are active, and there's no room for filler. Get to the point — then make it land.</p>
+        </div>
+        <div class="tone-card">
+          <h3>Grounded</h3>
+          <p>No hype, no promises we can't keep. BPS has real credentials — KNLTB certified, trained in Barcelona — let the substance speak. Trust is earned through honesty.</p>
+        </div>
+        <div class="tone-card">
+          <h3>Inclusive</h3>
+          <p>Padel is for everyone. Copy never talks down to beginners or gatekeeps from advanced players. Meet people where they are, and invite them up a level.</p>
+        </div>
+        <div class="tone-card">
+          <h3>Direct</h3>
+          <p>Rotterdam doesn't do fluff. Neither do we. Tell people what's happening, when, where, and why they should care — in that order. Cut anything that doesn't earn its place.</p>
+        </div>
+        <div class="tone-card">
+          <h3>Community-Minded</h3>
+          <p>This brand exists because of its players. Celebrate their wins. Highlight the scene. Make individuals feel like they belong to something bigger than a single match.</p>
+        </div>
+        <div class="tone-card">
+          <h3>Playful (Earned)</h3>
+          <p>Humor is welcome when it's genuine — never forced. A well-timed pun about padel is on-brand. Corporate buzzwords dressed as fun are not. Know the difference.</p>
+        </div>
+      </div>
+
+      <div class="voice-examples">
+        <div class="voice-ex">
+          <span class="ve-label good">Do — On Brand</span>
+          <blockquote>"Klaar voor je volgende toernooi? Schrijf je in voor het mixed event van 12 april — alle niveaus welkom, competitief speelniveau vereist."</blockquote>
+        </div>
+        <div class="voice-ex">
+          <span class="ve-label bad">Don't — Off Brand</span>
+          <blockquote>"Kom jij ook genieten van een geweldige en unieke sportbeleving bij ons fantastische evenement?! Schrijf je nu heel snel in!!! 🏓🔥💪"</blockquote>
+        </div>
+        <div class="voice-ex">
+          <span class="ve-label good">Do — On Brand</span>
+          <blockquote>"KNLTB-gecertificeerd. Getraind in Barcelona. Nu actief in Rotterdam. Damian Spijkers coacht vanuit ervaring — niet vanuit een handboek."</blockquote>
+        </div>
+        <div class="voice-ex">
+          <span class="ve-label bad">Don't — Off Brand</span>
+          <blockquote>"Wij zijn een professioneel en gepassioneerd team dat streeft naar excellentie in het aanbieden van hoogwaardige padeloplossingen voor iedereen."</blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       06 — GRAPHIC LANGUAGE
+  ═══════════════════════════════════════════════ -->
+  <section id="graphic">
+    <div class="page-wrap">
+      <p class="section-index">06 / Graphic Language</p>
+      <h2 class="section-title">Visual Elements</h2>
+      <p class="section-lead">Abstract geometric forms inspired by the padel court, the racket grid, and the trajectory of the ball. Never decorative for its own sake — every element earns its place by reinforcing the sport.</p>
+
+      <div class="graphic-grid">
+        <div class="graphic-item">
+          <div class="graphic-preview">
+            <div class="el-court"></div>
+          </div>
+          <div class="graphic-item-label">
+            <h4>Court Lines</h4>
+            <p>Rectangular frame motif derived from the padel court layout. Use for section framing, content cards, and hero backgrounds.</p>
+          </div>
+        </div>
+        <div class="graphic-item">
+          <div class="graphic-preview">
+            <div class="el-speed"></div>
+            <svg width="120" height="40" style="position:absolute;">
+              <line x1="0" y1="20" x2="100" y2="20" stroke="#2ECC71" stroke-width="2"/>
+              <line x1="0" y1="10" x2="70" y2="10" stroke="rgba(46,204,113,0.4)" stroke-width="1"/>
+              <line x1="0" y1="30" x2="55" y2="30" stroke="rgba(46,204,113,0.2)" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="graphic-item-label">
+            <h4>Speed Lines</h4>
+            <p>Horizontal motion lines suggesting the ball in play. Use sparingly on hero sections and tournament announcement graphics.</p>
+          </div>
+        </div>
+        <div class="graphic-item">
+          <div class="graphic-preview">
+            <div class="el-diamond"></div>
+          </div>
+          <div class="graphic-item-label">
+            <h4>Diamond Grid</h4>
+            <p>Rotated square form referencing the racket string pattern. Use as a background texture element or as a containing shape for icons.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: var(--sp-lg); display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-md);">
+        <div class="rule-item">
+          <h4>Photography Direction</h4>
+          <p>Favor action shots with motion blur, dramatic overhead perspectives, and close-ups of grip and footwork. Avoid posed group photos that look like stock imagery. Dark, high-contrast edits preferred — apply a subtle desaturation with enhanced greens for court tones.</p>
+        </div>
+        <div class="rule-item">
+          <h4>Texture Usage</h4>
+          <p>A subtle grain texture (noise: 3–5%, monochrome) can be applied over flat color backgrounds to add depth and tactility. Never use gradients that look like generic SaaS products (blue-to-purple, pink-to-orange). Gradients, when used, are radial and reference court lighting.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       07 — UI COMPONENTS
+  ═══════════════════════════════════════════════ -->
+  <section id="components">
+    <div class="page-wrap">
+      <p class="section-index">07 / UI Components</p>
+      <h2 class="section-title">Components</h2>
+      <p class="section-lead">A minimal set of reusable interface components that keep digital touchpoints consistent. Built for the website and social graphics.</p>
+
+      <div class="component-grid">
+        <div class="component-card">
+          <h4>Buttons</h4>
+          <div class="component-demo">
+            <button class="btn btn-primary">Inschrijven →</button>
+            <button class="btn btn-ghost">Meer informatie</button>
+            <button class="btn btn-secondary">Bekijk programma</button>
+          </div>
+        </div>
+        <div class="component-card">
+          <h4>Badges &amp; Labels</h4>
+          <div class="component-demo">
+            <span class="badge badge-green">Inschrijving open</span>
+            <span class="badge badge-lime">Nieuw</span>
+            <span class="badge badge-gray">Volgeboekt</span>
+            <div style="margin-top: var(--sp-sm); font-family: 'Barlow Condensed'; font-size: 11px; letter-spacing: 0.18em; color: var(--color-energy-green); text-transform: uppercase;">TOERNOOI · LEVEL 5–7 · ROTTERDAM</div>
+          </div>
+        </div>
+        <div class="component-card">
+          <h4>Typography Pairings</h4>
+          <div style="display: flex; flex-direction: column; gap: var(--sp-md);">
+            <div>
+              <p style="font-family: 'Barlow Condensed'; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-energy-green);">OVERLINE LABEL</p>
+              <p style="font-family: 'Barlow Condensed'; font-size: 28px; font-weight: 800; text-transform: uppercase; line-height: 1.1;">Section Heading</p>
+              <p style="font-size: 14px; color: var(--color-mid-gray); margin-top: 4px;">Supporting body copy that provides context and detail for the above heading. Kept concise.</p>
+            </div>
+          </div>
+        </div>
+        <div class="component-card">
+          <h4>Dividers &amp; Rules</h4>
+          <div style="display: flex; flex-direction: column; gap: var(--sp-lg);">
+            <div>
+              <p style="font-size: 12px; color: var(--color-mid-gray); margin-bottom: 8px;">Full rule — section separation</p>
+              <div style="height: 1px; background: var(--color-border);"></div>
+            </div>
+            <div>
+              <p style="font-size: 12px; color: var(--color-mid-gray); margin-bottom: 8px;">Accent rule — content emphasis</p>
+              <div style="height: 2px; background: var(--color-energy-green); width: 48px;"></div>
+            </div>
+            <div>
+              <p style="font-size: 12px; color: var(--color-mid-gray); margin-bottom: 8px;">Left border — quote / callout</p>
+              <div style="border-left: 3px solid var(--color-energy-green); padding-left: 12px; font-size: 14px; color: var(--color-mid-gray);">Important callout text or pull quote.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       08 — APPLICATIONS
+  ═══════════════════════════════════════════════ -->
+  <section id="applications">
+    <div class="page-wrap">
+      <p class="section-index">08 / Brand Applications</p>
+      <h2 class="section-title">In Use</h2>
+      <p class="section-lead">How the BPS visual identity translates into real-world materials — from tournament event cards to Instagram posts.</p>
+
+      <div class="applications-grid">
+        <div>
+          <p style="font-family: 'Barlow Condensed'; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-energy-green); margin-bottom: var(--sp-md);">Tournament Event Card</p>
+          <div class="mock-event">
+            <p class="me-type">Toernooi · Open inschrijving</p>
+            <p class="me-title">Mixed Open<br/>Rotterdam</p>
+            <div class="me-details">
+              <div class="me-detail"><strong>Datum</strong><span>Zaterdag 12 april 2026</span></div>
+              <div class="me-detail"><strong>Niveau</strong><span>4 – 7 (gemengd)</span></div>
+              <div class="me-detail"><strong>Locatie</strong><span>Padelbaan Rotterdam-Zuid</span></div>
+              <div class="me-detail"><strong>Format</strong><span>Poule + knock-out</span></div>
+            </div>
+            <div class="mock-event-footer">
+              <div>
+                <p style="font-size: 11px; color: var(--color-mid-gray);">Per koppel</p>
+                <p class="me-price">€ 35</p>
+              </div>
+              <button class="btn btn-primary" style="font-size: 12px; padding: 10px 20px;">Inschrijven →</button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p style="font-family: 'Barlow Condensed'; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-energy-green); margin-bottom: var(--sp-md);">Instagram Post (1:1)</p>
+          <div class="mock-social">
+            <div class="ms-content">
+              <p class="ms-tag">@bandeja_padel_events · Toernooi</p>
+              <p class="ms-title">Volgende stop:<br/>Rotterdam.</p>
+              <p style="font-size: 13px; color: var(--color-mid-gray); margin-top: 8px; position: relative; z-index: 1;">12 april · Alle niveaus welkom · Link in bio</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: var(--sp-xl);">
+        <p style="font-family: 'Barlow Condensed'; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-energy-green); margin-bottom: var(--sp-lg);">Social Media Guidelines</p>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-md);">
+          <div class="rule-item">
+            <h4>Caption Style</h4>
+            <p>Lead with the key fact (date, registration open, result). Use line breaks, not emojis, to create visual separation. End with a single clear CTA. Maximum 3 hashtags — #padelrotterdam, #padelspijkers, and one event-specific tag.</p>
+          </div>
+          <div class="rule-item">
+            <h4>Grid Consistency</h4>
+            <p>Alternate between action photography and graphic text posts. Keep the dark-first palette consistent even on stories. Never post a fully white-background image — apply a dark gradient overlay if needed.</p>
+          </div>
+          <div class="rule-item">
+            <h4>Stories Format</h4>
+            <p>Use the full-bleed dark background with large Barlow Condensed type. Sticker links should use the brand green. Results posts: large score / name treatment + Court Black background.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="doc-footer">
+  <div class="doc-footer-inner">
+    <div>
+      <div class="brand-mark">Bandeja<br/><span>Padel</span><br/>Spijkers</div>
+      <p style="font-size: 12px; color: var(--color-mid-gray); margin-top: var(--sp-md);">Brand Guidelines · Version 1.0</p>
+    </div>
+    <div class="doc-footer-meta">
+      <p>© 2026 Bandeja Padel Spijkers</p>
+      <p>padelspijkers.nl</p>
+      <p>@bandeja_padel_events</p>
+      <p style="margin-top: 8px; font-size: 11px;">Questions: bandejapadeltoernooien@gmail.com</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Lake Seven Rotterdam — Bandeja Padel</title>
+  <link rel="stylesheet" href="../css/app.css">
+  <style>
+    /* ─── HERO IMAGE ─── */
+    .detail-hero {
+      position: relative;
+      height: 260px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .detail-hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .detail-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(14,16,20,1) 0%, rgba(14,16,20,0.5) 50%, rgba(14,16,20,0.2) 100%);
+    }
+    .detail-hero-back {
+      position: absolute;
+      top: calc(var(--status-h) + 12px);
+      left: var(--pad);
+      width: 40px; height: 40px;
+      background: rgba(14,16,20,0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--c-white);
+    }
+    .detail-hero-action {
+      position: absolute;
+      top: calc(var(--status-h) + 12px);
+      right: var(--pad);
+      width: 40px; height: 40px;
+      background: rgba(14,16,20,0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .detail-hero-content {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0 var(--pad) 20px;
+    }
+    .detail-hero-level {
+      display: inline-block;
+      background: rgba(37,168,90,0.85);
+      backdrop-filter: blur(8px);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-white);
+      margin-bottom: 8px;
+    }
+    .detail-hero-title {
+      font-family: var(--f-display);
+      font-size: 28px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+      color: var(--c-white);
+    }
+
+    /* ─── META ROW ─── */
+    .detail-meta-row {
+      display: flex;
+      gap: 6px;
+      padding: 16px var(--pad) 0;
+      flex-wrap: wrap;
+    }
+    .meta-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      border-radius: 100px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--c-white);
+    }
+    .meta-pill-icon { font-size: 13px; }
+
+    /* ─── SECTION HEADING ─── */
+    .detail-section {
+      padding: 20px var(--pad) 0;
+    }
+    .detail-section-title {
+      font-family: var(--f-display);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--c-gray);
+      margin-bottom: 12px;
+    }
+    .detail-body-text {
+      font-size: 14px;
+      line-height: 1.65;
+      color: rgba(244,246,240,0.75);
+    }
+
+    /* ─── FORMAT STEPS ─── */
+    .format-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .format-step {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding-bottom: 16px;
+      position: relative;
+    }
+    .format-step:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 15px; top: 32px;
+      width: 1px;
+      bottom: 0;
+      background: var(--c-border);
+    }
+    .step-dot {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--c-green);
+      flex-shrink: 0;
+    }
+    .step-content { flex: 1; padding-top: 5px; }
+    .step-time {
+      font-family: var(--f-display);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--c-green);
+      letter-spacing: 0.04em;
+      margin-bottom: 2px;
+    }
+    .step-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--c-white);
+      margin-bottom: 1px;
+    }
+    .step-desc {
+      font-size: 12px;
+      color: var(--c-gray);
+    }
+
+    /* ─── INFO TABLE ─── */
+    .info-table {
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      overflow: hidden;
+    }
+    .info-row {
+      display: flex;
+      align-items: center;
+      padding: 12px 14px;
+      gap: 12px;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-label {
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--c-gray);
+      width: 90px;
+      flex-shrink: 0;
+    }
+    .info-value {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--c-white);
+      flex: 1;
+    }
+
+    /* ─── LEVEL TABS ─── */
+    .level-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .level-tab {
+      flex: 1;
+      padding: 8px 4px;
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-sm);
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--c-gray);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .level-tab.active {
+      background: rgba(37,168,90,0.15);
+      border-color: var(--rank-6);
+      color: var(--rank-6);
+    }
+
+    /* ─── PARTNER INPUT ─── */
+    .partner-input-block {
+      margin-bottom: 10px;
+    }
+    .partner-input-label {
+      font-family: var(--f-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-gray);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .partner-input-field {
+      width: 100%;
+      height: 44px;
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-sm);
+      padding: 0 12px;
+      font-size: 14px;
+      color: var(--c-white);
+      font-family: var(--f-body);
+      outline: none;
+    }
+    .partner-input-field:focus { border-color: var(--c-green); }
+    .partner-input-field::placeholder { color: var(--c-gray); opacity: 0.5; }
+
+    /* ─── PRICING ROW ─── */
+    .pricing-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .pricing-row:last-child { border-bottom: none; }
+    .pricing-item-name { font-size: 13px; color: var(--c-gray); }
+    .pricing-item-val { font-family: var(--f-display); font-size: 15px; font-weight: 700; }
+
+    /* ─── REGISTRATION BAR ─── */
+    .reg-bar {
+      position: fixed;
+      bottom: 0;
+      left: 50%; transform: translateX(-50%);
+      width: 390px;
+      max-width: 100%;
+      padding: 12px var(--pad) calc(var(--safe-btm) + 12px);
+      background: rgba(14,16,20,0.97);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid var(--c-border);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .reg-price-block { flex: 1; }
+    .reg-price-big {
+      font-family: var(--f-display);
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .reg-price-sub {
+      font-size: 10px;
+      color: var(--c-gray);
+      margin-top: 2px;
+    }
+    .reg-btn {
+      height: 52px;
+      padding: 0 24px;
+      background: var(--c-green);
+      color: var(--c-black);
+      border-radius: var(--r-md);
+      font-family: var(--f-display);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .reg-btn.registered {
+      background: var(--c-slate);
+      border: 1px solid var(--c-green);
+      color: var(--c-green);
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Status bar -->
+    <div class="status-bar" style="position:absolute; top:0; left:0; right:0; z-index:30; background:transparent;">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <span class="status-icon">●●●</span>
+        <span class="status-icon">WiFi</span>
+        <span class="status-icon">⚡</span>
+      </div>
+    </div>
+
+    <!-- Hero image -->
+    <div class="detail-hero">
+      <img class="detail-hero-img" src="../../images/Toernooien/Toernooi-1-qkvdaz0a09dz02khdeygwgtd06xvhnsij62gn9hsjc.jpg" alt="Lake Seven Rotterdam">
+      <div class="detail-hero-overlay"></div>
+      <a href="toernooien.html" class="detail-hero-back">‹</a>
+      <div class="detail-hero-action">🔗</div>
+      <div class="detail-hero-content">
+        <div class="detail-hero-level">Intermediair · KNLTB 6/7</div>
+        <div class="detail-hero-title">Lake Seven<br>Rotterdam</div>
+      </div>
+    </div>
+
+    <!-- Meta pills -->
+    <div class="detail-meta-row">
+      <div class="meta-pill"><span class="meta-pill-icon">📅</span> Za 12 april 2026</div>
+      <div class="meta-pill"><span class="meta-pill-icon">🕐</span> 12:00 – 19:00</div>
+      <div class="meta-pill"><span class="meta-pill-icon">📍</span> Zevenhuizen</div>
+    </div>
+
+    <!-- Scrollable content -->
+    <div class="scroll-area" style="padding-bottom: 100px;">
+
+      <!-- Description -->
+      <div class="detail-section">
+        <div class="detail-section-title">Over dit toernooi</div>
+        <div class="detail-body-text">
+          Een uniek buitenpadeltoernooi aan het water bij Lake Seven in Zevenhuizen. Met drie outdoor banen en een fantastisch strandpaviljoen is dit één van de meest sfeervolle locaties van het jaar. Speel, eet en geniet samen met andere padelaars.
+        </div>
+      </div>
+
+      <!-- Format -->
+      <div class="detail-section">
+        <div class="detail-section-title">Programma</div>
+        <div class="format-steps">
+          <div class="format-step">
+            <div class="step-dot">1</div>
+            <div class="step-content">
+              <div class="step-time">12:00</div>
+              <div class="step-name">Ontvangst & warming-up</div>
+              <div class="step-desc">Welkomstdrankje en kennismaking met de koppels</div>
+            </div>
+          </div>
+          <div class="format-step">
+            <div class="step-dot">2</div>
+            <div class="step-content">
+              <div class="step-time">12:30</div>
+              <div class="step-name">Groepsfase (round robin)</div>
+              <div class="step-desc">Iedere koppel speelt 3–4 wedstrijden à 20 min</div>
+            </div>
+          </div>
+          <div class="format-step">
+            <div class="step-dot">3</div>
+            <div class="step-content">
+              <div class="step-time">16:00</div>
+              <div class="step-name">Knock-out fase</div>
+              <div class="step-desc">Top 4 koppels strijden om de titel</div>
+            </div>
+          </div>
+          <div class="format-step">
+            <div class="step-dot">4</div>
+            <div class="step-content">
+              <div class="step-time">18:30</div>
+              <div class="step-name">Prijsuitreiking & borrel</div>
+              <div class="step-desc">Prijsuitreiking en afsluitende borrel bij het paviljoen</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info table -->
+      <div class="detail-section">
+        <div class="detail-section-title">Praktisch</div>
+        <div class="info-table">
+          <div class="info-row">
+            <span class="info-label">Locatie</span>
+            <span class="info-value">Strandweg 23, Zevenhuizen</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Niveau</span>
+            <span class="info-value">Intermediair (KNLTB 6/7)</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Format</span>
+            <span class="info-value">Dubbel · 8–12 koppels</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Ballen</span>
+            <span class="info-value">Wilson padelballen (incl.)</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Kleedkamers</span>
+            <span class="info-value">Beschikbaar op locatie</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Registration form -->
+      <div class="detail-section">
+        <div class="detail-section-title">Inschrijven</div>
+
+        <div class="level-tabs">
+          <button class="level-tab" onclick="setLevel(this, 'Beginner')">Beginner</button>
+          <button class="level-tab active" onclick="setLevel(this, 'Intermediair')">Intermediair</button>
+          <button class="level-tab" onclick="setLevel(this, 'Gevorderd')">Gevorderd</button>
+        </div>
+
+        <div class="partner-input-block">
+          <label class="partner-input-label">Speler 1</label>
+          <input class="partner-input-field" type="text" value="Sander de Vries" readonly>
+        </div>
+        <div class="partner-input-block">
+          <label class="partner-input-label">Partner (Speler 2)</label>
+          <input class="partner-input-field" type="text" placeholder="Naam of e-mailadres partner" value="Tim Bakker">
+        </div>
+
+        <div style="margin-top: 16px;">
+          <div class="pricing-row">
+            <span class="pricing-item-name">Inschrijfgeld per koppel</span>
+            <span class="pricing-item-val">€50</span>
+          </div>
+          <div class="pricing-row">
+            <span class="pricing-item-name">Per persoon</span>
+            <span class="pricing-item-val">€25</span>
+          </div>
+          <div class="pricing-row">
+            <span class="pricing-item-name">Baanhuur (inbegrepen)</span>
+            <span class="pricing-item-val" style="color: var(--c-green);">✓ Incl.</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 40px;"></div>
+    </div>
+
+    <!-- Registration bar -->
+    <div class="reg-bar">
+      <div class="reg-price-block">
+        <div class="reg-price-big">€50 <span style="font-size:14px; font-weight:500; color:var(--c-gray);">/ koppel</span></div>
+        <div class="reg-price-sub">2 plaatsen beschikbaar</div>
+      </div>
+      <button class="reg-btn registered" id="regBtn" onclick="toggleReg()">
+        Ingeschreven ✓
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function setLevel(el, name) {
+      document.querySelectorAll('.level-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+    function toggleReg() {
+      const btn = document.getElementById('regBtn');
+      if (btn.classList.contains('registered')) {
+        btn.classList.remove('registered');
+        btn.textContent = 'Inschrijven';
+      } else {
+        btn.classList.add('registered');
+        btn.textContent = 'Ingeschreven ✓';
+      }
+    }
+  </script>
+</body>
+</html>

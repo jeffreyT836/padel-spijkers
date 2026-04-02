@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Profiel — Bandeja Padel</title>
+  <link rel="stylesheet" href="../css/app.css">
+  <style>
+    /* ─── PROFILE HEADER ─── */
+    .profile-header {
+      background: linear-gradient(160deg, var(--c-slate) 0%, var(--c-black) 100%);
+      padding: 24px var(--pad) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      border: 1px solid rgba(46,204,113,0.1);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .profile-header::after {
+      content: '';
+      position: absolute;
+      top: -110px; right: -110px;
+      width: 340px; height: 340px;
+      border: 1px solid rgba(46,204,113,0.05);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .profile-top-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .profile-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rank-6), var(--rank-5));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display);
+      font-weight: 900;
+      font-size: 26px;
+      color: var(--c-black);
+      flex-shrink: 0;
+      position: relative;
+    }
+    .profile-avatar-ring {
+      position: absolute; inset: -3px;
+      border-radius: 50%;
+      border: 2px solid var(--rank-6);
+    }
+    .profile-info { flex: 1; padding-top: 4px; }
+    .profile-name {
+      font-family: var(--f-display);
+      font-size: 24px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .profile-location {
+      font-size: 12px;
+      color: var(--c-gray);
+      margin-bottom: 8px;
+    }
+    .profile-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .profile-badge {
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: var(--f-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .profile-badge.level {
+      background: rgba(37,168,90,0.15);
+      border: 1px solid rgba(37,168,90,0.3);
+      color: var(--rank-6);
+    }
+    .profile-badge.member {
+      background: rgba(244,246,240,0.08);
+      border: 1px solid var(--c-border);
+      color: var(--c-gray);
+    }
+    .profile-edit-btn {
+      width: 40px; height: 40px;
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    /* ─── RANK SECTION ─── */
+    .rank-section {
+      padding: 0 0 20px;
+    }
+    .rank-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .rank-label {
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--c-gray);
+    }
+    .rank-value {
+      font-family: var(--f-display);
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--rank-6);
+      line-height: 1;
+    }
+    .rank-sublabel {
+      font-family: var(--f-display);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(37,168,90,0.7);
+      margin-top: -2px;
+    }
+
+    /* Full rank bar */
+    .rank-full-bar {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 6px;
+    }
+    .rank-seg {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--c-border);
+      position: relative;
+    }
+    .rank-seg.filled { opacity: 0.4; }
+    .rank-seg.current { opacity: 1; }
+    /* Colors per segment (9 is leftmost = beginner) */
+    .rank-seg:nth-child(1) { background: var(--rank-9); }
+    .rank-seg:nth-child(2) { background: var(--rank-8); }
+    .rank-seg:nth-child(3) { background: var(--rank-7); }
+    .rank-seg:nth-child(4) { background: var(--rank-6); }
+    .rank-seg:nth-child(5) { background: var(--c-border); }
+    .rank-seg:nth-child(6) { background: var(--c-border); }
+    .rank-seg:nth-child(7) { background: var(--c-border); }
+    .rank-seg:nth-child(8) { background: var(--c-border); }
+    .rank-seg:nth-child(9) { background: var(--c-border); }
+
+    .rank-full-bar .rank-seg.filled:nth-child(1) { background: var(--rank-9); }
+    .rank-full-bar .rank-seg.filled:nth-child(2) { background: var(--rank-8); }
+    .rank-full-bar .rank-seg.filled:nth-child(3) { background: var(--rank-7); }
+    .rank-full-bar .rank-seg.current:nth-child(4) { background: var(--rank-6); }
+
+    .rank-legend-row {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--f-display);
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--c-gray);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── STAT TILES ─── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      padding: 16px var(--pad) 0;
+    }
+    .stat-card {
+      background: var(--c-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      padding: 16px;
+    }
+    .stat-card-label {
+      font-family: var(--f-display);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--c-gray);
+      margin-bottom: 6px;
+    }
+    .stat-card-value {
+      font-family: var(--f-display);
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--c-white);
+    }
+    .stat-card-value.green { color: var(--c-green); }
+    .stat-card-value.red { color: var(--c-red); }
+    .stat-card-value.gold { color: var(--c-gold); }
+    .stat-card-sub {
+      font-size: 11px;
+      color: var(--c-gray);
+      margin-top: 4px;
+    }
+    /* Win rate bar */
+    .win-rate-bar {
+      height: 4px;
+      background: var(--c-border);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .win-rate-fill {
+      height: 100%;
+      background: var(--c-green);
+      border-radius: 2px;
+      width: 33%;
+    }
+
+    /* ─── SECTION HEADER ─── */
+    .sec-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px var(--pad) 12px;
+    }
+    .sec-title {
+      font-family: var(--f-display);
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .sec-link {
+      font-size: 12px;
+      color: var(--c-green);
+      font-weight: 600;
+    }
+
+    /* ─── PARTNER CARD ─── */
+    .partner-list {
+      padding: 0 var(--pad);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .partner-card {
+      background: var(--c-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .partner-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display);
+      font-weight: 800;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .partner-av-green { background: linear-gradient(135deg, var(--c-green), var(--rank-5)); color: var(--c-black); }
+    .partner-av-lime { background: linear-gradient(135deg, var(--c-lime), var(--c-green)); color: var(--c-black); }
+    .partner-av-gray { background: var(--c-slate); border: 1px solid var(--c-border); color: var(--c-gray); }
+
+    .partner-info { flex: 1; }
+    .partner-name {
+      font-family: var(--f-display);
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 2px;
+    }
+    .partner-detail {
+      font-size: 11px;
+      color: var(--c-gray);
+    }
+    .partner-stats {
+      text-align: right;
+    }
+    .partner-win-pct {
+      font-family: var(--f-display);
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .partner-win-lbl {
+      font-size: 9px;
+      color: var(--c-gray);
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── MENU LIST ─── */
+    .menu-list {
+      padding: 0 var(--pad);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .menu-item {
+      background: var(--c-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+    }
+    .menu-icon {
+      width: 36px; height: 36px;
+      background: var(--c-slate);
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .menu-label {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--c-white);
+    }
+    .menu-arrow { color: var(--c-gray); font-size: 16px; }
+    .menu-item.danger .menu-label { color: var(--c-red); }
+    .menu-item.danger .menu-icon { background: rgba(255,85,85,0.1); }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Status bar -->
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <span class="status-icon">●●●</span>
+        <span class="status-icon">WiFi</span>
+        <span class="status-icon">⚡</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="app-header">
+      <div class="header-title">Profiel</div>
+      <div style="flex:1;"></div>
+      <div class="header-action">⚙</div>
+    </div>
+
+    <!-- Scroll content -->
+    <div class="scroll-area">
+
+      <!-- Profile header -->
+      <div class="profile-header">
+        <div class="profile-top-row">
+          <div class="profile-avatar">
+            <div class="profile-avatar-ring"></div>
+            SD
+          </div>
+          <div class="profile-info">
+            <div class="profile-name">Sander de Vries</div>
+            <div class="profile-location">📍 Rotterdam</div>
+            <div class="profile-badges">
+              <span class="profile-badge level">Ranking 6</span>
+              <span class="profile-badge member">Lid sinds 2024</span>
+            </div>
+          </div>
+          <div class="profile-edit-btn">✏️</div>
+        </div>
+
+        <!-- Rank bar -->
+        <div class="rank-section">
+          <div class="rank-section-header">
+            <div>
+              <div class="rank-label">Huidige ranking</div>
+              <div class="rank-value">6</div>
+              <div class="rank-sublabel">Intermediair</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:11px; color: var(--c-gray); margin-bottom:4px;">Doel: ranking 5</div>
+              <div style="font-family: var(--f-display); font-size:13px; font-weight:700; color: var(--rank-5);">3 toernooien</div>
+              <div style="font-size:10px; color: var(--c-gray);">tot volgende niveau</div>
+            </div>
+          </div>
+          <div class="rank-full-bar">
+            <div class="rank-seg filled"></div><!-- 9 -->
+            <div class="rank-seg filled"></div><!-- 8 -->
+            <div class="rank-seg filled"></div><!-- 7 -->
+            <div class="rank-seg current"></div><!-- 6 -->
+            <div class="rank-seg"></div><!-- 5 -->
+            <div class="rank-seg"></div><!-- 4 -->
+            <div class="rank-seg"></div><!-- 3 -->
+            <div class="rank-seg"></div><!-- 2 -->
+            <div class="rank-seg"></div><!-- 1 -->
+          </div>
+          <div class="rank-legend-row">
+            <span>9 · Beginner</span>
+            <span>5 · Semi-Pro</span>
+            <span>1 · Elite</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats grid -->
+      <div class="sec-hdr">
+        <span class="sec-title">Statistieken</span>
+        <a href="resultaten.html" class="sec-link">Details →</a>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-card-label">Toernooien</div>
+          <div class="stat-card-value">12</div>
+          <div class="stat-card-sub">Gespeeld</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Gewonnen</div>
+          <div class="stat-card-value green">4</div>
+          <div class="stat-card-sub">8 verloren</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Win rate</div>
+          <div class="stat-card-value">33%</div>
+          <div class="win-rate-bar"><div class="win-rate-fill"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Beste partner</div>
+          <div class="stat-card-value gold" style="font-size:24px; padding-top:4px;">Tim B.</div>
+          <div class="stat-card-sub">50% win rate</div>
+        </div>
+      </div>
+
+      <!-- Top partners -->
+      <div class="sec-hdr">
+        <span class="sec-title">Partners</span>
+        <a href="partners.html" class="sec-link">Alle →</a>
+      </div>
+      <div class="partner-list">
+        <div class="partner-card">
+          <div class="partner-avatar partner-av-green">TB</div>
+          <div class="partner-info">
+            <div class="partner-name">Tim Bakker</div>
+            <div class="partner-detail">8 toernooien samen</div>
+          </div>
+          <div class="partner-stats">
+            <div class="partner-win-pct" style="color: var(--c-green);">50%</div>
+            <div class="partner-win-lbl">win rate</div>
+          </div>
+        </div>
+        <div class="partner-card">
+          <div class="partner-avatar partner-av-lime">JB</div>
+          <div class="partner-info">
+            <div class="partner-name">Joost van den Berg</div>
+            <div class="partner-detail">3 toernooien samen</div>
+          </div>
+          <div class="partner-stats">
+            <div class="partner-win-pct" style="color: var(--c-gold);">33%</div>
+            <div class="partner-win-lbl">win rate</div>
+          </div>
+        </div>
+        <div class="partner-card">
+          <div class="partner-avatar partner-av-gray">RH</div>
+          <div class="partner-info">
+            <div class="partner-name">Rein Hoekstra</div>
+            <div class="partner-detail">1 toernooi samen</div>
+          </div>
+          <div class="partner-stats">
+            <div class="partner-win-pct" style="color: var(--c-gray);">0%</div>
+            <div class="partner-win-lbl">win rate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account menu -->
+      <div class="sec-hdr">
+        <span class="sec-title">Account</span>
+      </div>
+      <div class="menu-list">
+        <div class="menu-item">
+          <div class="menu-icon">👤</div>
+          <span class="menu-label">Persoonlijke gegevens</span>
+          <span class="menu-arrow">›</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-icon">🔔</div>
+          <span class="menu-label">Meldingen</span>
+          <span class="menu-arrow">›</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-icon">🔒</div>
+          <span class="menu-label">Privacy & beveiliging</span>
+          <span class="menu-arrow">›</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-icon">❓</div>
+          <span class="menu-label">Help & support</span>
+          <span class="menu-arrow">›</span>
+        </div>
+        <div class="menu-item danger">
+          <div class="menu-icon">🚪</div>
+          <span class="menu-label">Uitloggen</span>
+        </div>
+      </div>
+      <div style="height: 24px;"></div>
+    </div>
+
+    <!-- Tab bar -->
+    <nav class="tab-bar">
+      <a href="home.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <span class="tab-label">Home</span>
+      </a>
+      <a href="toernooien.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
+        <span class="tab-label">Toernooien</span>
+      </a>
+      <a href="inschrijvingen.html" class="tab-item tab-center">
+        <div class="tab-center-btn">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <span class="tab-label">Inschrijven</span>
+      </a>
+      <a href="resultaten.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <span class="tab-label">Resultaten</span>
+      </a>
+      <a href="profiel.html" class="tab-item active">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <span class="tab-label">Profiel</span>
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

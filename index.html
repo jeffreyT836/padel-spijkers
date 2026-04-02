@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bandeja Padel Spijkers — Toernooien, lessen en clinics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--c-slate);
+      border-top: 1px solid var(--c-border);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .stats-inner {
+      max-width: var(--w-max);
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+    }
+    .stat-item {
+      text-align: center;
+      padding: 28px 16px;
+      border-right: 1px solid var(--c-border);
+    }
+    .stat-item:last-child { border-right: none; }
+
+    /* ── SERVICE TRIPTYCH ── */
+    .service-triptych {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 2px;
+      background: var(--c-border);
+    }
+    .service-card {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: var(--c-slate);
+      display: block;
+    }
+    .service-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s var(--ease), opacity 0.4s;
+      opacity: 0.55;
+    }
+    .service-card:hover img { transform: scale(1.06); opacity: 0.35; }
+    .service-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(14,16,20,0.95) 0%, rgba(14,16,20,0.3) 60%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 40px 36px;
+    }
+    .service-num {
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-green);
+      margin-bottom: 8px;
+    }
+    .service-title {
+      font-family: var(--f-display);
+      font-size: clamp(36px, 3.5vw, 52px);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .service-desc {
+      font-size: 14px;
+      color: rgba(244,246,240,0.65);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    /* ── ABOUT TEASER ── */
+    .about-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: -20px; left: -20px;
+      right: 20px; bottom: 20px;
+      border: 1px solid var(--c-border);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .about-img-wrap img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+    }
+    .about-accent {
+      position: absolute;
+      bottom: -1px; right: -1px;
+      width: 72px; height: 72px;
+      background: var(--c-green);
+      z-index: 2;
+    }
+
+    /* ── PULL QUOTE ── */
+    .pull-quote {
+      border-left: 3px solid var(--c-green);
+      padding: 16px 24px;
+      margin: 24px 0;
+      background: rgba(46,204,113,0.04);
+    }
+    .pull-quote p {
+      font-family: var(--f-display);
+      font-size: 18px;
+      font-weight: 600;
+      font-style: italic;
+      line-height: 1.45;
+      color: var(--c-white);
+    }
+
+    @media (max-width: 768px) {
+      .stats-inner { grid-template-columns: repeat(2,1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-right: 1px solid var(--c-border); }
+      .service-triptych { grid-template-columns: 1fr; background: none; gap: 2px; }
+      .service-card { aspect-ratio: 16/9; }
+      .about-split { grid-template-columns: 1fr; gap: 48px; }
+      .about-img-wrap::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo/logo-Bandeja-Spijkers.png" alt="Bandeja Padel Spijkers" />
+        <span class="nav-logo-text">Bandeja<br/>Padel Spijkers</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="toernooien.html">Toernooien</a></li>
+        <li class="has-dropdown">
+          <a href="lessen.html">Lessen &amp; Clinics</a>
+          <ul class="nav-dropdown">
+            <li><a href="lessen.html">Lessen</a></li>
+            <li><a href="clinics.html">Clinics</a></li>
+          </ul>
+        </li>
+        <li><a href="over-ons.html">Over ons</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="toernooien.html" class="btn btn-primary nav-cta">Inschrijven →</a>
+      <button class="nav-burger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <nav class="nav-mobile">
+    <a href="index.html" class="active">Home</a>
+    <a href="toernooien.html">Toernooien</a>
+    <a href="lessen.html">Lessen</a>
+    <a href="clinics.html">Clinics</a>
+    <a href="over-ons.html">Over ons</a>
+    <a href="#contact">Contact</a>
+    <a href="toernooien.html" class="btn btn-primary mob-cta" style="margin-top:16px;">Inschrijven →</a>
+  </nav>
+
+  <main>
+
+    <!-- ══ HERO ══ -->
+    <section class="hero">
+      <div class="hero-grid"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-img">
+        <img src="images/spelers.jpg" alt="Padelspelers in actie" />
+      </div>
+      <div class="hero-content">
+        <span class="hero-tag">Rotterdam · KNLTB Gecertificeerd</span>
+        <h1 class="hero-h1">
+          Leer nieuwe<br/>mensen <span class="g">kennen.</span>
+        </h1>
+        <p class="hero-sub">Verbeter je padelvaardigheden door toernooien, lessen en clinics — elk weekend, op jouw niveau, in en om Rotterdam.</p>
+        <div class="hero-ctas">
+          <a href="toernooien.html" class="btn btn-primary btn-lg">Bekijk toernooien →</a>
+          <a href="lessen.html" class="btn btn-secondary btn-lg">Lessen &amp; clinics</a>
+        </div>
+      </div>
+      <div class="hero-scroll-hint">Scroll</div>
+    </section>
+
+    <!-- ══ STATS ══ -->
+    <div class="stats-bar">
+      <div class="stats-inner">
+        <div class="stat-item reveal">
+          <span class="stat-num">50+</span>
+          <span class="stat-label">Toernooien / jaar</span>
+        </div>
+        <div class="stat-item reveal d1">
+          <span class="stat-num">10+</span>
+          <span class="stat-label">Locaties</span>
+        </div>
+        <div class="stat-item reveal d2">
+          <span class="stat-num">3</span>
+          <span class="stat-label">Spelniveaus</span>
+        </div>
+        <div class="stat-item reveal d3">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Plezier gegarandeerd</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SERVICES TRIPTYCH ══ -->
+    <div class="service-triptych">
+      <a href="toernooien.html" class="service-card">
+        <img src="images/dec24-01kl.jpg" alt="Toernooien" />
+        <div class="service-overlay">
+          <span class="service-num">01 — Toernooien</span>
+          <h2 class="service-title">Toernooien</h2>
+          <p class="service-desc">Elk weekend op verschillende locaties. Speel op jouw niveau en leer nieuwe mensen kennen.</p>
+          <span class="btn btn-ghost btn-sm">Bekijk de agenda →</span>
+        </div>
+      </a>
+      <a href="lessen.html" class="service-card">
+        <img src="images/dec24-03kl.jpg" alt="Lessen" />
+        <div class="service-overlay">
+          <span class="service-num">02 — Lessen</span>
+          <h2 class="service-title">Lessen</h2>
+          <p class="service-desc">Persoonlijke aandacht staat centraal. Van beginner tot gevorderd — wij begeleiden jou verder.</p>
+          <span class="btn btn-ghost btn-sm">Meer over lessen →</span>
+        </div>
+      </a>
+      <a href="clinics.html" class="service-card">
+        <img src="images/dec24-04kl.jpg" alt="Clinics" />
+        <div class="service-overlay">
+          <span class="service-num">03 — Clinics</span>
+          <h2 class="service-title">Clinics</h2>
+          <p class="service-desc">Groepsactiviteiten voor teams, bedrijven en vriendengroepen. Inclusief borrel op aanvraag.</p>
+          <span class="btn btn-ghost btn-sm">Plan een clinic →</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- ══ FEATURED TOURNAMENTS ══ -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;">
+          <div>
+            <span class="overline">Aankomende toernooien</span>
+            <h2 class="section-title">Kies jouw<br/>volgende wedstrijd</h2>
+          </div>
+          <a href="toernooien.html" class="btn btn-secondary">Volledig schema →</a>
+        </div>
+
+        <div class="grid-4">
+          <a href="toernooi-detail.html" class="card reveal d1">
+            <div class="card-img-wrap" style="height:200px;">
+              <img src="images/Toernooien/Template-1-70-300x300.png" alt="Lake Seven Rotterdam" style="height:200px;" />
+            </div>
+            <div class="card-body">
+              <div style="display:flex;gap:8px;margin-bottom:12px;">
+                <span class="badge badge-green">Open</span>
+                <span class="badge badge-gray">Alle niveaus</span>
+              </div>
+              <span class="card-overline">Zondag 12 April · Rotterdam</span>
+              <h3 class="card-title">Lake Seven<br/>Rotterdam</h3>
+              <div class="card-meta">
+                <span class="card-meta-item">12:00 – 19:00</span>
+                <span class="card-meta-item">Strandweg 23, Zevenhuizen</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-price">€50 <small>per koppel</small></div>
+              <span class="btn btn-primary btn-sm">Inschrijven</span>
+            </div>
+          </a>
+
+          <a href="#" class="card reveal d2">
+            <div class="card-img-wrap" style="height:200px;">
+              <img src="images/Toernooien/Template-1-73-300x300.png" alt="De Uithof" style="height:200px;" />
+            </div>
+            <div class="card-body">
+              <div style="display:flex;gap:8px;margin-bottom:12px;">
+                <span class="badge badge-green">Open</span>
+                <span class="badge badge-gray">Alle niveaus</span>
+              </div>
+              <span class="card-overline">Donderdag 17 April · Den Haag</span>
+              <h3 class="card-title">Toernooi<br/>De Uithof</h3>
+              <div class="card-meta">
+                <span class="card-meta-item">Alle niveaus</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-price">€50 <small>per koppel</small></div>
+              <span class="btn btn-primary btn-sm">Inschrijven</span>
+            </div>
+          </a>
+
+          <a href="#" class="card reveal d3">
+            <div class="card-img-wrap" style="height:200px;">
+              <img src="images/Toernooien/Template-2-2026-03-18T093538.464-300x300.png" alt="WePadel Haarlem" style="height:200px;" />
+            </div>
+            <div class="card-body">
+              <div style="display:flex;gap:8px;margin-bottom:12px;">
+                <span class="badge badge-green">Open</span>
+                <span class="badge badge-gray">Alle niveaus</span>
+              </div>
+              <span class="card-overline">Vrijdag 18 April · Haarlem</span>
+              <h3 class="card-title">Toernooi<br/>WePadel</h3>
+              <div class="card-meta">
+                <span class="card-meta-item">Alle niveaus</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-price">€50 <small>per koppel</small></div>
+              <span class="btn btn-primary btn-sm">Inschrijven</span>
+            </div>
+          </a>
+
+          <a href="#" class="card reveal d4">
+            <div class="card-img-wrap" style="height:200px;">
+              <img src="images/Toernooien/Template-4-2025-12-10T174713.660-300x300.png" alt="Pre-Koningsdag Amsterdam" style="height:200px;" />
+            </div>
+            <div class="card-body">
+              <div style="display:flex;gap:8px;margin-bottom:12px;">
+                <span class="badge badge-green">Open</span>
+                <span class="badge badge-gray">Alle niveaus</span>
+              </div>
+              <span class="card-overline">Vrijdag 25 April · Amsterdam</span>
+              <h3 class="card-title">Pre-Koningsdag<br/>NDSM Padel</h3>
+              <div class="card-meta">
+                <span class="card-meta-item">Alle niveaus</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-price">€50 <small>per koppel</small></div>
+              <span class="btn btn-primary btn-sm">Inschrijven</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ VALUES ══ -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="overline">Bij ons staat centraal</span>
+          <h2 class="section-title">Wat ons<br/>drijft</h2>
+        </div>
+        <div class="grid-3">
+          <div class="value-card reveal d1">
+            <h3>Plezier</h3>
+            <p>Plezier staat op nummer 1 bij Bandeja Padel. Elk toernooi, elke les en elke clinic is gericht op gezamenlijk plezier op de baan.</p>
+          </div>
+          <div class="value-card reveal d2">
+            <h3>Kennis &amp; ervaring</h3>
+            <p>KNLTB-gecertificeerd en getraind in Barcelona. Onze coaching komt voort uit echte speelervaring, niet alleen uit een handboek.</p>
+          </div>
+          <div class="value-card reveal d3">
+            <h3>Prijs / kwaliteit</h3>
+            <p>Professionele kwaliteit voor een eerlijke prijs. Hoge aandacht voor detail bij zowel toernooien als lessen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ TESTIMONIALS ══ -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="overline">Wat spelers zeggen</span>
+          <h2 class="section-title">Ervaringen uit<br/>de community</h2>
+        </div>
+        <div class="grid-2">
+          <div class="testimonial reveal d1">
+            <blockquote>"Goede lessen, duidelijk programma, fijn dat je aan het einde ook echt wedstrijdjes speelt zodat je het geleerde ook kunt toepassen."</blockquote>
+            <cite>— Stephan Pronk</cite>
+          </div>
+          <div class="testimonial reveal d2">
+            <blockquote>"De lessen zijn betaalbaar, gevarieerd en leuk! Er wordt ook aandacht besteed aan de fouten die je maakt tijdens de les. Erg fijn!"</blockquote>
+            <cite>— Deborah Anker</cite>
+          </div>
+          <div class="testimonial reveal d3">
+            <blockquote>"Uitdagend, zeker als beginner, maar heel leerzaam en leuk! Er wordt goed rekening gehouden met alle niveaus in de groep."</blockquote>
+            <cite>— Levi Parent</cite>
+          </div>
+          <div class="testimonial reveal d4">
+            <blockquote>"De toernooien zijn lekker toegankelijk en gezellig. Je speelt altijd op jouw niveau en leert altijd nieuwe mensen kennen."</blockquote>
+            <cite>— Germain</cite>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ ABOUT TEASER ══ -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="about-split">
+          <div class="about-img-wrap reveal">
+            <img src="images/Damian.jpg" alt="Damian Spijkers — oprichter Bandeja Padel Spijkers" />
+            <div class="about-accent"></div>
+          </div>
+          <div class="reveal d2">
+            <span class="overline">Over ons</span>
+            <h2 class="section-title" style="font-size:clamp(40px,5.5vw,80px);">Damian<br/>Spijkers</h2>
+            <div class="divider"></div>
+            <p style="font-size:16px;color:var(--c-gray);line-height:1.7;margin-bottom:20px;">
+              KNLTB-gecertificeerd padelinstructeur. Geboren in Dordrecht, getraind in Barcelona, actief in Rotterdam. Damian startte Bandeja Padel Spijkers vanuit een heldere missie: padel voor iedereen toegankelijk maken, op het hoogste pleziersniveau.
+            </p>
+            <div class="pull-quote">
+              <p>"Een levendige gemeenschap van padelspelers creëren waar plezier, competitie en persoonlijke ontwikkeling hand in hand gaan."</p>
+            </div>
+            <a href="over-ons.html" class="btn btn-secondary" style="margin-top:24px;">Lees ons verhaal →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ PHOTO GALLERY ROW ══ -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--c-border);">
+      <div class="img-overlay" style="height:280px;">
+        <img src="images/dec24-02kl.jpg" alt="Toernooi moment" style="height:280px;" />
+      </div>
+      <div class="img-overlay" style="height:280px;">
+        <img src="images/dec24-10-qyn73va0fmmb1oj86qafldyu1cchif1q6pfa7alneg.jpg" alt="Padel actie" style="height:280px;" />
+      </div>
+      <div class="img-overlay" style="height:280px;">
+        <img src="images/image00007-1.jpg" alt="Padel spelers" style="height:280px;" />
+      </div>
+      <div class="img-overlay" style="height:280px;">
+        <img src="images/padelspeler.jpg" alt="Padelspeler" style="height:280px;" />
+      </div>
+    </div>
+
+    <!-- ══ CTA BANNER ══ -->
+    <div class="cta-banner">
+      <div class="container">
+        <p class="cta-banner-overline">Klaar om te spelen?</p>
+        <h2 class="cta-banner-title">Schrijf je in voor<br/>het volgende toernooi</h2>
+        <a href="toernooien.html" class="btn btn-dark btn-lg">Bekijk de volledige agenda →</a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" id="contact">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-wrap">
+          <img src="images/logo/logo-Bandeja-Spijkers.png" alt="Bandeja Padel Spijkers" />
+          <span class="footer-brand-name">Bandeja<br/>Padel Spijkers</span>
+        </div>
+        <p class="footer-tagline">Toernooien, lessen en clinics in en om Rotterdam. Op jouw niveau, met maximaal plezier.</p>
+        <div class="footer-social">
+          <a href="https://instagram.com/bandeja_padel_events" target="_blank" rel="noopener">IG</a>
+          <a href="#" target="_blank" rel="noopener">LI</a>
+        </div>
+      </div>
+      <nav class="footer-nav-grid">
+        <div class="footer-col">
+          <h4>Pagina's</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="toernooien.html">Toernooien</a></li>
+            <li><a href="lessen.html">Lessen</a></li>
+            <li><a href="clinics.html">Clinics</a></li>
+            <li><a href="over-ons.html">Over ons</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li class="no-link">bandejapadeltoernooien@gmail.com</li>
+            <li class="no-link">06 46710362</li>
+            <li class="no-link">Rotterdam, Nederland</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Locaties</h4>
+          <ul>
+            <li class="no-link">Rotterdam</li>
+            <li class="no-link">Den Haag</li>
+            <li class="no-link">Amsterdam</li>
+            <li class="no-link">Haarlem</li>
+            <li class="no-link">Antwerpen</li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Bandeja Padel Spijkers · KvK: 91467179 · BTW: NL004895225B60</p>
+      <span class="footer-mark">BPS</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

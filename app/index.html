@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bandeja Padel — App Design Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --c-black:  #0E1014;
+      --c-dark:   #111827;
+      --c-slate:  #1E2530;
+      --c-card:   #161C26;
+      --c-border: #2A3140;
+      --c-green:  #2ECC71;
+      --c-lime:   #A8E63D;
+      --c-gold:   #FFD166;
+      --c-white:  #F4F6F0;
+      --c-gray:   #8A9099;
+      --f-display: 'Barlow Condensed', Arial Narrow, sans-serif;
+      --f-body: 'Barlow', Arial, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--f-body);
+      background: #070a0f;
+      color: var(--c-white);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Grain */
+    body::after {
+      content: '';
+      position: fixed; inset: -50%;
+      width: 200%; height: 200%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ─── HEADER ─── */
+    .showcase-header {
+      padding: 60px 40px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .header-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .header-eyebrow-line {
+      width: 40px;
+      height: 2px;
+      background: var(--c-green);
+    }
+    .header-eyebrow-text {
+      font-family: var(--f-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--c-green);
+    }
+    .showcase-title {
+      font-family: var(--f-display);
+      font-size: clamp(48px, 6vw, 80px);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 0.95;
+      margin-bottom: 20px;
+    }
+    .showcase-title span { color: var(--c-green); }
+    .showcase-subtitle {
+      font-size: 16px;
+      color: var(--c-gray);
+      line-height: 1.6;
+      max-width: 560px;
+    }
+
+    /* ─── NAV PILLS ─── */
+    .showcase-nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 0 40px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .nav-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 36px;
+      padding: 0 14px;
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      border-radius: 100px;
+      font-family: var(--f-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--c-gray);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .nav-pill:hover, .nav-pill.active {
+      background: rgba(46,204,113,0.1);
+      border-color: var(--c-green);
+      color: var(--c-green);
+    }
+    .nav-pill-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* ─── DEVICE FRAMES ─── */
+    .screens-section {
+      padding: 0 40px 80px;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .section-label-text {
+      font-family: var(--f-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--c-gray);
+    }
+    .section-label-line {
+      flex: 1;
+      height: 1px;
+      background: var(--c-border);
+    }
+
+    /* Mobile screens row */
+    .mobile-row {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--c-border) transparent;
+    }
+    .mobile-row::-webkit-scrollbar { height: 4px; }
+    .mobile-row::-webkit-scrollbar-track { background: transparent; }
+    .mobile-row::-webkit-scrollbar-thumb { background: var(--c-border); border-radius: 2px; }
+
+    .mobile-frame {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .mobile-frame-label {
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-gray);
+    }
+
+    /* iPhone 16 Pro-ish shell */
+    .phone-shell {
+      width: 280px;
+      background: #1a1a1e;
+      border-radius: 44px;
+      padding: 12px;
+      box-shadow:
+        0 0 0 1px #2c2c30,
+        0 40px 80px rgba(0,0,0,0.7),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+      position: relative;
+    }
+    .phone-shell::before {
+      content: '';
+      position: absolute;
+      top: 12px; left: 50%;
+      transform: translateX(-50%);
+      width: 90px; height: 28px;
+      background: #1a1a1e;
+      border-radius: 0 0 18px 18px;
+      z-index: 10;
+    }
+    .phone-screen {
+      width: 100%;
+      height: 530px;
+      border-radius: 34px;
+      overflow: hidden;
+      background: var(--c-black);
+      position: relative;
+    }
+    .phone-screen iframe {
+      width: 390px;
+      height: 844px;
+      border: none;
+      transform-origin: top left;
+      transform: scale(0.718);
+      pointer-events: none;
+    }
+
+    /* Tablet frame */
+    .tablet-section {
+      margin-top: 80px;
+    }
+    .tablet-frame-wrap {
+      display: flex;
+      justify-content: center;
+    }
+    .tablet-shell {
+      background: #1a1a1e;
+      border-radius: 28px;
+      padding: 14px;
+      box-shadow:
+        0 0 0 1px #2c2c30,
+        0 60px 120px rgba(0,0,0,0.7),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+      position: relative;
+    }
+    .tablet-shell::before {
+      /* Home button / side bar mock */
+      content: '';
+      position: absolute;
+      right: -3px; top: 50%;
+      transform: translateY(-50%);
+      width: 4px; height: 60px;
+      background: #2c2c30;
+      border-radius: 2px;
+    }
+    .tablet-screen {
+      width: 768px;
+      height: 540px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--c-black);
+    }
+    .tablet-screen iframe {
+      width: 1024px;
+      height: 720px;
+      border: none;
+      transform-origin: top left;
+      transform: scale(0.75);
+      pointer-events: none;
+    }
+
+    /* ─── FEATURE CALLOUTS ─── */
+    .features-section {
+      padding: 0 40px 80px;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+    .feature-card {
+      background: var(--c-card);
+      border: 1px solid var(--c-border);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .feature-title {
+      font-family: var(--f-display);
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .feature-desc {
+      font-size: 13px;
+      color: var(--c-gray);
+      line-height: 1.5;
+    }
+
+    /* ─── RANKING LEGEND ─── */
+    .rank-legend {
+      padding: 0 40px 80px;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .rank-legend-grid {
+      display: flex;
+      gap: 6px;
+    }
+    .rank-level-card {
+      flex: 1;
+      padding: 14px 10px;
+      background: var(--c-card);
+      border: 1px solid var(--c-border);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .rank-level-num {
+      font-family: var(--f-display);
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .rank-level-label {
+      font-family: var(--f-display);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--c-gray);
+    }
+    .rank-level-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin: 6px auto 0;
+    }
+
+    /* ─── FOOTER ─── */
+    .showcase-footer {
+      border-top: 1px solid var(--c-border);
+      padding: 32px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-brand {
+      font-family: var(--f-display);
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .footer-brand span { color: var(--c-green); }
+    .footer-note { font-size: 12px; color: var(--c-gray); }
+
+    @media (max-width: 768px) {
+      .showcase-header { padding: 40px 20px 24px; }
+      .showcase-nav { padding: 0 20px 24px; }
+      .screens-section { padding: 0 20px 60px; }
+      .features-section { padding: 0 20px 60px; }
+      .rank-legend { padding: 0 20px 60px; }
+      .showcase-footer { padding: 24px 20px; flex-direction: column; gap: 8px; text-align: center; }
+      .tablet-screen { width: 100%; overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="showcase-header">
+    <div class="header-eyebrow">
+      <div class="header-eyebrow-line"></div>
+      <span class="header-eyebrow-text">Design Showcase · v1.0</span>
+    </div>
+    <h1 class="showcase-title">Bandeja <span>Padel</span><br>Mobile App</h1>
+    <p class="showcase-subtitle">
+      Multi-screen app design voor toernooi-management, persoonlijk profiel met ranking (9→1), inschrijvingen, resultaten en partnerstatistieken. Ontworpen voor iOS-formaat en tablet.
+    </p>
+  </header>
+
+  <!-- Quick nav -->
+  <nav class="showcase-nav">
+    <a href="screens/splash.html" target="_blank" class="nav-pill">
+      <span class="nav-pill-dot"></span> Splash
+    </a>
+    <a href="screens/home.html" target="_blank" class="nav-pill">
+      <span class="nav-pill-dot"></span> Home
+    </a>
+    <a href="screens/toernooien.html" target="_blank" class="nav-pill">
+      <span class="nav-pill-dot"></span> Toernooien
+    </a>
+    <a href="screens/toernooi-detail.html" target="_blank" class="nav-pill">
+      <span class="nav-pill-dot"></span> Detail
+    </a>
+    <a href="screens/profiel.html" target="_blank" class="nav-pill">
+      <span class="nav-pill-dot"></span> Profiel
+    </a>
+    <a href="screens/inschrijvingen.html" target="_blank" class="nav-pill">
+      <span class="nav-pill-dot"></span> Inschrijvingen
+    </a>
+    <a href="screens/resultaten.html" target="_blank" class="nav-pill">
+      <span class="nav-pill-dot"></span> Resultaten
+    </a>
+    <a href="screens/partners.html" target="_blank" class="nav-pill">
+      <span class="nav-pill-dot"></span> Partners
+    </a>
+  </nav>
+
+  <!-- ─── MOBILE SCREENS ─── -->
+  <section class="screens-section">
+    <div class="section-label">
+      <span class="section-label-text">Mobile · 390px · iPhone 16 Pro</span>
+      <div class="section-label-line"></div>
+    </div>
+
+    <div class="mobile-row">
+
+      <div class="mobile-frame">
+        <div class="phone-shell">
+          <div class="phone-screen">
+            <iframe src="screens/splash.html" title="Splash / Login"></iframe>
+          </div>
+        </div>
+        <span class="mobile-frame-label">01 · Splash / Login</span>
+      </div>
+
+      <div class="mobile-frame">
+        <div class="phone-shell">
+          <div class="phone-screen">
+            <iframe src="screens/home.html" title="Home Dashboard"></iframe>
+          </div>
+        </div>
+        <span class="mobile-frame-label">02 · Home Dashboard</span>
+      </div>
+
+      <div class="mobile-frame">
+        <div class="phone-shell">
+          <div class="phone-screen">
+            <iframe src="screens/toernooien.html" title="Toernooien"></iframe>
+          </div>
+        </div>
+        <span class="mobile-frame-label">03 · Toernooien</span>
+      </div>
+
+      <div class="mobile-frame">
+        <div class="phone-shell">
+          <div class="phone-screen">
+            <iframe src="screens/toernooi-detail.html" title="Toernooi Detail"></iframe>
+          </div>
+        </div>
+        <span class="mobile-frame-label">04 · Toernooi Detail</span>
+      </div>
+
+      <div class="mobile-frame">
+        <div class="phone-shell">
+          <div class="phone-screen">
+            <iframe src="screens/profiel.html" title="Profiel"></iframe>
+          </div>
+        </div>
+        <span class="mobile-frame-label">05 · Profiel</span>
+      </div>
+
+      <div class="mobile-frame">
+        <div class="phone-shell">
+          <div class="phone-screen">
+            <iframe src="screens/inschrijvingen.html" title="Inschrijvingen"></iframe>
+          </div>
+        </div>
+        <span class="mobile-frame-label">06 · Inschrijvingen</span>
+      </div>
+
+      <div class="mobile-frame">
+        <div class="phone-shell">
+          <div class="phone-screen">
+            <iframe src="screens/resultaten.html" title="Resultaten"></iframe>
+          </div>
+        </div>
+        <span class="mobile-frame-label">07 · Resultaten</span>
+      </div>
+
+      <div class="mobile-frame">
+        <div class="phone-shell">
+          <div class="phone-screen">
+            <iframe src="screens/partners.html" title="Partners"></iframe>
+          </div>
+        </div>
+        <span class="mobile-frame-label">08 · Partners</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── TABLET SCREEN ─── -->
+  <section class="screens-section tablet-section">
+    <div class="section-label">
+      <span class="section-label-text">Tablet · 768px · iPad Air</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="tablet-frame-wrap">
+      <div class="tablet-shell">
+        <div class="tablet-screen">
+          <iframe src="screens/profiel.html" title="Profiel — Tablet"></iframe>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center; font-size:13px; color: var(--c-gray); margin-top: 16px;">
+      Op tablet verschijnt een zijbalk navigatie via CSS Grid. Klik een scherm aan om interactief te testen.
+    </p>
+  </section>
+
+  <!-- ─── RANKING LEGEND ─── -->
+  <section class="rank-legend">
+    <div class="section-label" style="margin-bottom: 24px;">
+      <span class="section-label-text">Ranking systeem · 9 → 1</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="rank-legend-grid">
+      <div class="rank-level-card">
+        <div class="rank-level-num" style="color: #A8E63D;">9</div>
+        <div class="rank-level-label">Beginner</div>
+        <div class="rank-level-dot" style="background: #A8E63D;"></div>
+      </div>
+      <div class="rank-level-card">
+        <div class="rank-level-num" style="color: #7ED957;">8</div>
+        <div class="rank-level-label">Beginner+</div>
+        <div class="rank-level-dot" style="background: #7ED957;"></div>
+      </div>
+      <div class="rank-level-card">
+        <div class="rank-level-num" style="color: #2ECC71;">7</div>
+        <div class="rank-level-label">Gevorderd beg.</div>
+        <div class="rank-level-dot" style="background: #2ECC71;"></div>
+      </div>
+      <div class="rank-level-card" style="border-color: rgba(37,168,90,0.5);">
+        <div class="rank-level-num" style="color: #25A85A;">6</div>
+        <div class="rank-level-label">Intermediair ★</div>
+        <div class="rank-level-dot" style="background: #25A85A;"></div>
+      </div>
+      <div class="rank-level-card">
+        <div class="rank-level-num" style="color: #1A8A48;">5</div>
+        <div class="rank-level-label">Intermediair+</div>
+        <div class="rank-level-dot" style="background: #1A8A48;"></div>
+      </div>
+      <div class="rank-level-card">
+        <div class="rank-level-num" style="color: #F4F6F0;">4</div>
+        <div class="rank-level-label">Gevorderd</div>
+        <div class="rank-level-dot" style="background: #F4F6F0;"></div>
+      </div>
+      <div class="rank-level-card">
+        <div class="rank-level-num" style="color: #D4DCE4;">3</div>
+        <div class="rank-level-label">Gevorderd+</div>
+        <div class="rank-level-dot" style="background: #D4DCE4;"></div>
+      </div>
+      <div class="rank-level-card">
+        <div class="rank-level-num" style="color: #FFD166;">2</div>
+        <div class="rank-level-label">Semi-Pro</div>
+        <div class="rank-level-dot" style="background: #FFD166;"></div>
+      </div>
+      <div class="rank-level-card">
+        <div class="rank-level-num" style="color: #FF9500;">1</div>
+        <div class="rank-level-label">Elite</div>
+        <div class="rank-level-dot" style="background: #FF9500;"></div>
+      </div>
+    </div>
+    <p style="font-size: 12px; color: var(--c-gray); margin-top: 12px;">
+      ★ Sander de Vries zit op niveau 6 (Intermediair). Ranking 1 is het hoogste niveau.
+    </p>
+  </section>
+
+  <!-- ─── FEATURE CALLOUTS ─── -->
+  <section class="features-section">
+    <div class="section-label" style="margin-bottom: 24px;">
+      <span class="section-label-text">App functies</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🏆</div>
+        <div class="feature-title">Toernooien</div>
+        <div class="feature-desc">Overzicht met level-filters (Beginner / Intermediair / Gevorderd), zoeken, locatie en inschrijfstatus.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Ranking 9→1</div>
+        <div class="feature-desc">Visuele rankingbalk met kleurcodering per niveau. Progressiedoel naar volgend niveau zichtbaar.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <div class="feature-title">Partners</div>
+        <div class="feature-desc">Overzicht van vaste partners met gedeelde toernooigeschiedenis, win rates en matchhistorie-dots.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <div class="feature-title">Inschrijvingen</div>
+        <div class="feature-desc">Aankomende en gespeelde toernooien met statusbadges (Bevestigd / In behandeling) en partner info.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <div class="feature-title">Resultaten</div>
+        <div class="feature-desc">Match-voor-match resultatenoverzicht met WIN/LOSS, tegenstanders en rondes. Filterbaar.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱→🖥</div>
+        <div class="feature-title">Tablet Layout</div>
+        <div class="feature-desc">Op 768px+ schakelt de bottom tab bar over naar een vaste zijbalk via CSS Grid. Geen JS nodig.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="showcase-footer">
+    <div class="footer-brand">Bandeja <span>Padel</span> Spijkers</div>
+    <div class="footer-note">App Design · 2026 · Mobile &amp; Tablet</div>
+  </footer>
+
+</body>
+</html>
