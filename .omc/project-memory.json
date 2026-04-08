@@ -1,0 +1,156 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775201012290,
+  "projectRoot": "/Users/jeffreytempelman/Projects/padel-spijkers",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "app"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "app": {
+      "path": "app",
+      "purpose": "Application code",
+      "fileCount": 2,
+      "lastAccessed": 1775201012260,
+      "keyFiles": [
+        "index.html"
+      ]
+    },
+    "css": {
+      "path": "css",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1775201012260,
+      "keyFiles": [
+        "styles.css"
+      ]
+    },
+    "images": {
+      "path": "images",
+      "purpose": null,
+      "fileCount": 12,
+      "lastAccessed": 1775201012261,
+      "keyFiles": [
+        "Damian.jpg",
+        "Over-03-qkvdaz0a09dz02khdeygwgtd06xvhnsij62gn9hsjc.jpg",
+        "Over-05-qkvdb1tskrhtywgdwy6cly3qscjz4r3pjk0x33dm0o.jpg",
+        "dec24-01kl.jpg",
+        "dec24-02kl.jpg"
+      ]
+    },
+    "js": {
+      "path": "js",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1775201012261,
+      "keyFiles": [
+        "main.js"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "",
+      "accessCount": 7,
+      "lastAccessed": 1775203346730,
+      "type": "directory"
+    },
+    {
+      "path": "app/css/app.css",
+      "accessCount": 4,
+      "lastAccessed": 1775202984727,
+      "type": "file"
+    },
+    {
+      "path": "app/screens/home.html",
+      "accessCount": 4,
+      "lastAccessed": 1775203351657,
+      "type": "file"
+    },
+    {
+      "path": "app/screens/resultaten.html",
+      "accessCount": 3,
+      "lastAccessed": 1775202977414,
+      "type": "file"
+    },
+    {
+      "path": "app/screens/profiel.html",
+      "accessCount": 3,
+      "lastAccessed": 1775202977829,
+      "type": "file"
+    },
+    {
+      "path": "app/screens/partners.html",
+      "accessCount": 3,
+      "lastAccessed": 1775202978239,
+      "type": "file"
+    },
+    {
+      "path": "app/screens/inschrijvingen.html",
+      "accessCount": 3,
+      "lastAccessed": 1775203350735,
+      "type": "file"
+    },
+    {
+      "path": "app/screens/toernooi-detail.html",
+      "accessCount": 2,
+      "lastAccessed": 1775203351586,
+      "type": "file"
+    },
+    {
+      "path": "index.html",
+      "accessCount": 1,
+      "lastAccessed": 1775201222818,
+      "type": "file"
+    },
+    {
+      "path": "js/main.js",
+      "accessCount": 1,
+      "lastAccessed": 1775201223007,
+      "type": "file"
+    },
+    {
+      "path": "css/styles.css",
+      "accessCount": 1,
+      "lastAccessed": 1775201223450,
+      "type": "file"
+    },
+    {
+      "path": "app/index.html",
+      "accessCount": 1,
+      "lastAccessed": 1775201226431,
+      "type": "file"
+    },
+    {
+      "path": "app/screens/toernooien.html",
+      "accessCount": 1,
+      "lastAccessed": 1775202677961,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

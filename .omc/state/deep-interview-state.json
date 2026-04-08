@@ -1,0 +1,15 @@
+{
+  "active": false,
+  "current_phase": "complete",
+  "interview_id": "padel-spijkers-001",
+  "current_ambiguity": 0.168,
+  "rounds_completed": 7,
+  "spec_path": ".omc/specs/deep-interview-padel-spijkers-api-architecture.md",
+  "status": "PASSED",
+  "_meta": {
+    "mode": "deep-interview",
+    "sessionId": null,
+    "updatedAt": "2026-04-03T07:48:32.266Z",
+    "updatedBy": "state_write_tool"
+  }
+}

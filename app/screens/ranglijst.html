@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ranglijst — Bandeja Padel</title>
+  <link rel="stylesheet" href="../css/app.css">
+  <style>
+    /* ─── SEARCH ─── */
+    .search-wrap {
+      padding: 12px var(--pad) 0;
+    }
+    .search-field {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .search-field svg {
+      position: absolute;
+      left: 13px;
+      width: 16px; height: 16px;
+      color: var(--c-gray);
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+    .search-input {
+      width: 100%;
+      height: 44px;
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      padding: 0 14px 0 40px;
+      font-family: var(--f-body);
+      font-size: 14px;
+      color: var(--c-white);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-input::placeholder { color: var(--c-gray); }
+    .search-input:focus { border-color: var(--c-green); }
+
+    /* ─── LEVEL FILTER ─── */
+    .level-filter {
+      padding: 10px var(--pad) 0;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .level-filter::-webkit-scrollbar { display: none; }
+    .level-chip {
+      flex-shrink: 0;
+      height: 30px;
+      padding: 0 12px;
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      border-radius: 100px;
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--c-gray);
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .level-chip.active {
+      background: rgba(46,204,113,0.12);
+      border-color: var(--c-green);
+      color: var(--c-green);
+    }
+
+    /* ─── STATS STRIP ─── */
+    .rk-stats {
+      padding: 14px var(--pad) 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .rk-stat {
+      background: var(--c-slate);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      padding: 12px 10px;
+      text-align: center;
+    }
+    .rk-stat-num {
+      font-family: var(--f-display);
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .rk-stat-lbl {
+      font-size: 9px;
+      color: var(--c-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 3px;
+    }
+
+    /* ─── COLUMN HEADERS ─── */
+    .col-hdr {
+      padding: 16px var(--pad) 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .col-pos  { width: 30px; font-family: var(--f-display); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-gray); flex-shrink: 0; text-align: center; }
+    .col-avt  { width: 38px; flex-shrink: 0; }
+    .col-name { flex: 1; font-family: var(--f-display); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-gray); }
+    .col-elo  { width: 56px; text-align: right; font-family: var(--f-display); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-gray); flex-shrink: 0; }
+    .col-lvl  { width: 56px; text-align: right; font-family: var(--f-display); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-gray); flex-shrink: 0; }
+
+    /* ─── PLAYER LIST ─── */
+    .player-list {
+      padding: 0 var(--pad);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .player-row {
+      background: var(--c-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      padding: 9px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.14s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .player-row:active,
+    .player-row:hover {
+      border-color: rgba(46,204,113,0.35);
+      background: rgba(46,204,113,0.03);
+    }
+    /* Podium accent stripe */
+    .player-row[data-pos="1"] { border-left: 3px solid #FF9500; }
+    .player-row[data-pos="2"] { border-left: 3px solid #A0AABB; }
+    .player-row[data-pos="3"] { border-left: 3px solid #C87941; }
+    /* Me highlight */
+    .player-row.is-me {
+      border-color: rgba(37,168,90,0.5);
+      background: rgba(37,168,90,0.04);
+    }
+
+    .p-pos {
+      width: 30px;
+      flex-shrink: 0;
+      text-align: center;
+      font-family: var(--f-display);
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .p-av {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display);
+      font-weight: 800;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .p-info { flex: 1; min-width: 0; }
+    .p-name {
+      font-family: var(--f-display);
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .p-sub {
+      font-size: 10px;
+      color: var(--c-gray);
+      margin-top: 1px;
+    }
+    .p-elo {
+      width: 52px;
+      text-align: right;
+      font-family: var(--f-display);
+      font-size: 16px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .p-lvl {
+      width: 52px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .lvl-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 7px;
+      border-radius: 100px;
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .lvl-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ─── EMPTY STATE ─── */
+    .empty-state {
+      padding: 48px var(--pad);
+      text-align: center;
+      display: none;
+    }
+    .empty-icon { font-size: 36px; margin-bottom: 10px; }
+    .empty-text {
+      font-family: var(--f-display);
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--c-gray);
+    }
+    .empty-sub { font-size: 12px; color: var(--c-gray); margin-top: 4px; opacity: 0.7; }
+  </style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <span class="status-icon">●●●</span>
+        <span class="status-icon">WiFi</span>
+        <span class="status-icon">⚡</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="app-header">
+      <div class="header-title">Ranglijst</div>
+      <div style="flex:1;"></div>
+      <div class="header-action" style="font-family:var(--f-display);font-size:11px;font-weight:700;letter-spacing:0.08em;color:var(--c-gray);">ELO</div>
+    </div>
+
+    <div class="scroll-area">
+
+      <!-- Summary stats -->
+      <div class="rk-stats">
+        <div class="rk-stat">
+          <div class="rk-stat-num" style="color:var(--c-white);">247</div>
+          <div class="rk-stat-lbl">Spelers</div>
+        </div>
+        <div class="rk-stat">
+          <div class="rk-stat-num" style="color:var(--rank-1);">1842</div>
+          <div class="rk-stat-lbl">Top ELO</div>
+        </div>
+        <div class="rk-stat">
+          <div class="rk-stat-num" style="color:var(--c-gold);">9→1</div>
+          <div class="rk-stat-lbl">Niveaus</div>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="search-wrap">
+        <div class="search-field">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Zoek speler op naam…"
+            id="searchInput"
+            oninput="filterRows()"
+            autocomplete="off"
+          >
+        </div>
+      </div>
+
+      <!-- Level filter chips -->
+      <div class="level-filter">
+        <button class="level-chip active" onclick="setLevel(this,'alle')">Alle</button>
+        <button class="level-chip" onclick="setLevel(this,'elite')" style="--chip-c:#FF9500;">Elite (1)</button>
+        <button class="level-chip" onclick="setLevel(this,'semi-pro')" style="--chip-c:#FFD166;">Semi-Pro (2)</button>
+        <button class="level-chip" onclick="setLevel(this,'gevorderd')" style="--chip-c:#D4DCE4;">Gevorderd (3–4)</button>
+        <button class="level-chip" onclick="setLevel(this,'intermediair')" style="--chip-c:#25A85A;">Intermediair (5–6)</button>
+        <button class="level-chip" onclick="setLevel(this,'beginner')" style="--chip-c:#A8E63D;">Beginner (7–9)</button>
+      </div>
+
+      <!-- Column headers -->
+      <div class="col-hdr">
+        <div class="col-pos">#</div>
+        <div class="col-avt"></div>
+        <div class="col-name">Speler</div>
+        <div class="col-elo">ELO</div>
+        <div class="col-lvl">Niv.</div>
+      </div>
+
+      <!-- ─── PLAYER LIST ─── -->
+      <div class="player-list" id="playerList">
+
+        <a href="speler-detail.html" class="player-row" data-pos="1" data-name="marco van der berg" data-level="elite">
+          <div class="p-pos" style="color:#FF9500;">1</div>
+          <div class="p-av" style="background:linear-gradient(135deg,#FF9500,#FFD166);color:#0E1014;">MV</div>
+          <div class="p-info">
+            <div class="p-name">Marco van der Berg</div>
+            <div class="p-sub">Rotterdam · 28 toern.</div>
+          </div>
+          <div class="p-elo" style="color:#FF9500;">1842</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(255,149,0,.14);color:#FF9500;"><span class="lvl-dot" style="background:#FF9500;"></span>1</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row" data-pos="2" data-name="lisa hendriks" data-level="elite">
+          <div class="p-pos" style="color:#A0AABB;">2</div>
+          <div class="p-av" style="background:linear-gradient(135deg,#A0AABB,#D4DCE4);color:#0E1014;">LH</div>
+          <div class="p-info">
+            <div class="p-name">Lisa Hendriks</div>
+            <div class="p-sub">Den Haag · 31 toern.</div>
+          </div>
+          <div class="p-elo" style="color:#A0AABB;">1756</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(255,149,0,.14);color:#FF9500;"><span class="lvl-dot" style="background:#FF9500;"></span>1</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row" data-pos="3" data-name="daan vermeer" data-level="semi-pro">
+          <div class="p-pos" style="color:#C87941;">3</div>
+          <div class="p-av" style="background:linear-gradient(135deg,#C87941,#E8A870);color:#0E1014;">DV</div>
+          <div class="p-info">
+            <div class="p-name">Daan Vermeer</div>
+            <div class="p-sub">Amsterdam · 22 toern.</div>
+          </div>
+          <div class="p-elo" style="color:var(--c-white);">1698</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(255,209,102,.12);color:#FFD166;"><span class="lvl-dot" style="background:#FFD166;"></span>2</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row" data-name="sophie de boer" data-level="semi-pro">
+          <div class="p-pos" style="color:var(--c-gray);">4</div>
+          <div class="p-av" style="background:linear-gradient(135deg,#FFD166,#FF9500);color:#0E1014;">SB</div>
+          <div class="p-info">
+            <div class="p-name">Sophie de Boer</div>
+            <div class="p-sub">Utrecht · 19 toern.</div>
+          </div>
+          <div class="p-elo" style="color:var(--c-white);">1634</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(255,209,102,.12);color:#FFD166;"><span class="lvl-dot" style="background:#FFD166;"></span>2</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row" data-name="remy jacobs" data-level="gevorderd">
+          <div class="p-pos" style="color:var(--c-gray);">5</div>
+          <div class="p-av" style="background:linear-gradient(135deg,#D4DCE4,#F4F6F0);color:#0E1014;">RJ</div>
+          <div class="p-info">
+            <div class="p-name">Remy Jacobs</div>
+            <div class="p-sub">Eindhoven · 17 toern.</div>
+          </div>
+          <div class="p-elo" style="color:var(--c-white);">1587</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(212,220,228,.12);color:#D4DCE4;"><span class="lvl-dot" style="background:#D4DCE4;"></span>3</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row" data-name="tom peters" data-level="gevorderd">
+          <div class="p-pos" style="color:var(--c-gray);">6</div>
+          <div class="p-av" style="background:linear-gradient(135deg,#D4DCE4,#F4F6F0);color:#0E1014;">TP</div>
+          <div class="p-info">
+            <div class="p-name">Tom Peters</div>
+            <div class="p-sub">Rotterdam · 24 toern.</div>
+          </div>
+          <div class="p-elo" style="color:var(--c-white);">1521</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(212,220,228,.12);color:#D4DCE4;"><span class="lvl-dot" style="background:#D4DCE4;"></span>3</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row" data-name="anna kooij" data-level="gevorderd">
+          <div class="p-pos" style="color:var(--c-gray);">7</div>
+          <div class="p-av" style="background:linear-gradient(135deg,#F4F6F0,#D4DCE4);color:#0E1014;">AK</div>
+          <div class="p-info">
+            <div class="p-name">Anna Kooij</div>
+            <div class="p-sub">Breda · 14 toern.</div>
+          </div>
+          <div class="p-elo" style="color:var(--c-white);">1478</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(244,246,240,.1);color:#F4F6F0;"><span class="lvl-dot" style="background:#F4F6F0;"></span>4</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row" data-name="niek vlam" data-level="gevorderd">
+          <div class="p-pos" style="color:var(--c-gray);">8</div>
+          <div class="p-av" style="background:linear-gradient(135deg,var(--c-border),var(--c-slate));color:var(--c-white);">NV</div>
+          <div class="p-info">
+            <div class="p-name">Niek Vlam</div>
+            <div class="p-sub">Tilburg · 11 toern.</div>
+          </div>
+          <div class="p-elo" style="color:var(--c-white);">1432</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(244,246,240,.1);color:#F4F6F0;"><span class="lvl-dot" style="background:#F4F6F0;"></span>4</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row is-me" data-name="sander de vries" data-level="intermediair">
+          <div class="p-pos" style="color:var(--rank-6);">9</div>
+          <div class="p-av" style="background:linear-gradient(135deg,var(--rank-6),var(--rank-5));color:#0E1014;">SD</div>
+          <div class="p-info">
+            <div class="p-name">Sander de Vries</div>
+            <div class="p-sub" style="color:var(--rank-6);">Jij · Rotterdam · 12 toern.</div>
+          </div>
+          <div class="p-elo" style="color:var(--rank-6);">1389</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(26,138,72,.15);color:var(--rank-5);"><span class="lvl-dot" style="background:var(--rank-5);"></span>5</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row" data-name="tim bakker" data-level="intermediair">
+          <div class="p-pos" style="color:var(--c-gray);">10</div>
+          <div class="p-av" style="background:linear-gradient(135deg,var(--c-green),var(--rank-5));color:#0E1014;">TB</div>
+          <div class="p-info">
+            <div class="p-name">Tim Bakker</div>
+            <div class="p-sub">Rotterdam · 8 toern.</div>
+          </div>
+          <div class="p-elo" style="color:var(--c-white);">1352</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(37,168,90,.12);color:var(--rank-6);"><span class="lvl-dot" style="background:var(--rank-6);"></span>6</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row" data-name="joost van den berg" data-level="intermediair">
+          <div class="p-pos" style="color:var(--c-gray);">11</div>
+          <div class="p-av" style="background:linear-gradient(135deg,var(--c-lime),var(--c-green));color:#0E1014;">JB</div>
+          <div class="p-info">
+            <div class="p-name">Joost van den Berg</div>
+            <div class="p-sub">Den Haag · 3 toern.</div>
+          </div>
+          <div class="p-elo" style="color:var(--c-white);">1298</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(37,168,90,.12);color:var(--rank-6);"><span class="lvl-dot" style="background:var(--rank-6);"></span>6</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row" data-name="rein hoekstra" data-level="intermediair">
+          <div class="p-pos" style="color:var(--c-gray);">12</div>
+          <div class="p-av" style="background:var(--c-slate);border:1px solid var(--c-border);color:var(--c-gray);">RH</div>
+          <div class="p-info">
+            <div class="p-name">Rein Hoekstra</div>
+            <div class="p-sub">Amsterdam · 5 toern.</div>
+          </div>
+          <div class="p-elo" style="color:var(--c-white);">1243</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(37,168,90,.12);color:var(--rank-6);"><span class="lvl-dot" style="background:var(--rank-6);"></span>6</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row" data-name="femke smeets" data-level="beginner">
+          <div class="p-pos" style="color:var(--c-gray);">13</div>
+          <div class="p-av" style="background:linear-gradient(135deg,var(--rank-7),var(--rank-6));color:#0E1014;">FS</div>
+          <div class="p-info">
+            <div class="p-name">Femke Smeets</div>
+            <div class="p-sub">Tilburg · 6 toern.</div>
+          </div>
+          <div class="p-elo" style="color:var(--c-white);">1187</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(46,204,113,.1);color:var(--rank-7);"><span class="lvl-dot" style="background:var(--rank-7);"></span>7</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row" data-name="lars mol" data-level="beginner">
+          <div class="p-pos" style="color:var(--c-gray);">14</div>
+          <div class="p-av" style="background:linear-gradient(135deg,var(--rank-8),var(--rank-7));color:#0E1014;">LM</div>
+          <div class="p-info">
+            <div class="p-name">Lars Mol</div>
+            <div class="p-sub">Utrecht · 4 toern.</div>
+          </div>
+          <div class="p-elo" style="color:var(--c-white);">1134</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(126,217,87,.1);color:var(--rank-8);"><span class="lvl-dot" style="background:var(--rank-8);"></span>8</span></div>
+        </a>
+
+        <a href="speler-detail.html" class="player-row" data-name="eva claassen" data-level="beginner">
+          <div class="p-pos" style="color:var(--c-gray);">15</div>
+          <div class="p-av" style="background:linear-gradient(135deg,var(--rank-9),var(--rank-8));color:#0E1014;">EC</div>
+          <div class="p-info">
+            <div class="p-name">Eva Claassen</div>
+            <div class="p-sub">Groningen · 2 toern.</div>
+          </div>
+          <div class="p-elo" style="color:var(--c-white);">1089</div>
+          <div class="p-lvl"><span class="lvl-pill" style="background:rgba(168,230,61,.1);color:var(--rank-9);"><span class="lvl-dot" style="background:var(--rank-9);"></span>9</span></div>
+        </a>
+
+      </div><!-- /player-list -->
+
+      <!-- Empty state -->
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">🔍</div>
+        <div class="empty-text">Geen spelers gevonden</div>
+        <div class="empty-sub">Pas je zoekterm of filter aan</div>
+      </div>
+
+      <div style="height:20px;"></div>
+    </div><!-- /scroll-area -->
+
+    <!-- Tab bar — Ranglijst replaces Resultaten position -->
+    <nav class="tab-bar">
+      <a href="home.html" class="tab-item">
+        <div class="tab-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <span class="tab-label">Home</span>
+      </a>
+      <a href="toernooien.html" class="tab-item">
+        <div class="tab-icon">
+          <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+        </div>
+        <span class="tab-label">Toernooien</span>
+      </a>
+      <a href="inschrijvingen.html" class="tab-item tab-center">
+        <div class="tab-center-btn">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <span class="tab-label">Inschrijven</span>
+      </a>
+      <a href="ranglijst.html" class="tab-item active">
+        <div class="tab-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 6l4-4 4 4"/><line x1="12" y1="2" x2="12" y2="13"/>
+            <circle cx="12" cy="17" r="3"/>
+            <path d="M5.2 18.6A9 9 0 1 1 18.8 18.6"/>
+          </svg>
+        </div>
+        <span class="tab-label">Ranglijst</span>
+      </a>
+      <a href="profiel.html" class="tab-item">
+        <div class="tab-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <span class="tab-label">Profiel</span>
+      </a>
+    </nav>
+
+  </div><!-- /app -->
+
+  <script>
+    let activeLevel = 'alle';
+
+    function setLevel(btn, level) {
+      document.querySelectorAll('.level-chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      activeLevel = level;
+      filterRows();
+    }
+
+    function filterRows() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const rows = document.querySelectorAll('#playerList .player-row');
+      let visible = 0;
+
+      rows.forEach(row => {
+        const nameMatch = !q || (row.dataset.name || '').includes(q);
+        const levelMatch = activeLevel === 'alle' || (row.dataset.level || '') === activeLevel;
+        const show = nameMatch && levelMatch;
+        row.style.display = show ? 'flex' : 'none';
+        if (show) visible++;
+      });
+
+      document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>

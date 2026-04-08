@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Marco van der Berg — Bandeja Padel</title>
+  <link rel="stylesheet" href="../css/app.css">
+  <style>
+    /* ─── HERO SECTION ─── */
+    .player-hero {
+      background: linear-gradient(160deg, #1a1206 0%, var(--c-black) 60%);
+      padding: 20px var(--pad) 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Decorative glow ring behind avatar */
+    .player-hero::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -50px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,149,0,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .player-hero::after {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      border: 1px solid rgba(255,149,0,0.08);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-avatar {
+      width: 68px; height: 68px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FF9500, #FFD166);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display);
+      font-weight: 900;
+      font-size: 24px;
+      color: #0E1014;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .hero-avatar-ring {
+      position: absolute; inset: -3px;
+      border-radius: 50%;
+      border: 2px solid #FF9500;
+    }
+    .hero-info { flex: 1; padding-top: 2px; }
+    .hero-name {
+      font-family: var(--f-display);
+      font-size: 22px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .hero-location {
+      font-size: 12px;
+      color: var(--c-gray);
+      margin-bottom: 8px;
+    }
+    .hero-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .hero-badge {
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: var(--f-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .badge-elite {
+      background: rgba(255,149,0,0.15);
+      border: 1px solid rgba(255,149,0,0.35);
+      color: #FF9500;
+    }
+    .badge-member {
+      background: rgba(244,246,240,0.06);
+      border: 1px solid var(--c-border);
+      color: var(--c-gray);
+    }
+    .badge-public {
+      background: rgba(74,158,255,0.1);
+      border: 1px solid rgba(74,158,255,0.25);
+      color: var(--c-blue);
+    }
+
+    /* ─── ELO HERO NUMBER ─── */
+    .elo-block {
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+      padding-top: 4px;
+    }
+    .elo-main { }
+    .elo-label {
+      font-family: var(--f-display);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--c-gray);
+      margin-bottom: 2px;
+    }
+    .elo-number {
+      font-family: var(--f-display);
+      font-size: 60px;
+      font-weight: 900;
+      color: #FF9500;
+      line-height: 1;
+    }
+    .elo-trend {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: rgba(46,204,113,0.12);
+      border: 1px solid rgba(46,204,113,0.25);
+      font-family: var(--f-display);
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--c-green);
+      margin-bottom: 8px;
+    }
+    .rank-num-display {
+      text-align: right;
+    }
+    .rank-num-label {
+      font-family: var(--f-display);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--c-gray);
+      margin-bottom: 2px;
+    }
+    .rank-num-big {
+      font-family: var(--f-display);
+      font-size: 52px;
+      font-weight: 900;
+      color: #FF9500;
+      line-height: 1;
+    }
+    .rank-num-sub {
+      font-family: var(--f-display);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba(255,149,0,0.65);
+      margin-top: -2px;
+    }
+
+    /* ─── RANK BAR (all 9 filled for rank 1) ─── */
+    .rank-bar-section {
+      padding: 0 0 4px;
+      position: relative;
+      z-index: 2;
+    }
+    .rank-bar-wrap {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 5px;
+    }
+    .r-seg {
+      flex: 1;
+      height: 5px;
+      border-radius: 3px;
+    }
+    .r-seg.dim { opacity: 0.35; }
+    .r-seg.bright { opacity: 1; }
+    .rank-bar-legend {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--f-display);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--c-gray);
+    }
+
+    /* ─── CONTENT SECTIONS ─── */
+    .detail-section {
+      padding: 20px var(--pad) 0;
+    }
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .section-heading-text {
+      font-family: var(--f-display);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--c-gray);
+    }
+    .section-heading-line {
+      flex: 1;
+      height: 1px;
+      background: var(--c-border);
+    }
+
+    /* ─── STATS GRID ─── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .stat-tile {
+      background: var(--c-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      padding: 14px;
+    }
+    .st-label {
+      font-family: var(--f-display);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--c-gray);
+      margin-bottom: 4px;
+    }
+    .st-value {
+      font-family: var(--f-display);
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .st-sub {
+      font-size: 10px;
+      color: var(--c-gray);
+      margin-top: 3px;
+    }
+    .st-bar {
+      height: 3px;
+      background: var(--c-border);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .st-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+
+    /* ─── BETROUWBAARHEID ─── */
+    .reliability-card {
+      background: var(--c-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-lg);
+      padding: 16px;
+    }
+    .rel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .rel-title {
+      font-family: var(--f-display);
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .rel-pct {
+      font-family: var(--f-display);
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--c-green);
+    }
+    .rel-bar-track {
+      height: 8px;
+      background: var(--c-border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .rel-bar-fill {
+      height: 100%;
+      width: 94%;
+      background: linear-gradient(90deg, var(--rank-5), var(--c-green), var(--c-lime));
+      border-radius: 4px;
+    }
+    .rel-meta {
+      font-size: 11px;
+      color: var(--c-gray);
+      line-height: 1.4;
+    }
+
+    /* ─── ELO CHART ─── */
+    .chart-card {
+      background: var(--c-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-lg);
+      padding: 16px;
+    }
+    .chart-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .chart-title {
+      font-family: var(--f-display);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .chart-period {
+      font-size: 10px;
+      color: var(--c-gray);
+      margin-top: 2px;
+    }
+    .chart-current-elo {
+      font-family: var(--f-display);
+      font-size: 20px;
+      font-weight: 900;
+      color: #FF9500;
+    }
+    .chart-delta {
+      font-size: 11px;
+      color: var(--c-green);
+      font-weight: 600;
+      text-align: right;
+    }
+    .chart-svg-wrap {
+      margin: 8px -4px 0;
+    }
+    .chart-months {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      padding: 0 6px;
+    }
+    .chart-month-lbl {
+      font-family: var(--f-display);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--c-gray);
+    }
+
+    /* ─── RECENT RESULTS ─── */
+    .result-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .result-row {
+      background: var(--c-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      display: flex;
+      align-items: stretch;
+    }
+    .result-accent {
+      width: 4px;
+      flex-shrink: 0;
+    }
+    .result-accent.win  { background: var(--c-green); }
+    .result-accent.loss { background: var(--c-red); }
+    .result-body {
+      flex: 1;
+      padding: 11px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .result-badge {
+      width: 40px; height: 40px;
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+    .result-badge.win  { background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.25); color: var(--c-green); }
+    .result-badge.loss { background: rgba(255,85,85,0.1);   border: 1px solid rgba(255,85,85,0.2);   color: var(--c-red); }
+    .result-meta { flex: 1; }
+    .result-tourney {
+      font-family: var(--f-display);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+    }
+    .result-opp {
+      font-size: 10px;
+      color: var(--c-gray);
+      margin-top: 2px;
+    }
+    .result-score-block { text-align: right; }
+    .result-score {
+      font-family: var(--f-display);
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .result-score.win  { color: var(--c-green); }
+    .result-score.loss { color: var(--c-red); }
+    .result-round {
+      font-size: 9px;
+      color: var(--c-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-top: 1px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <span class="status-icon">●●●</span>
+        <span class="status-icon">WiFi</span>
+        <span class="status-icon">⚡</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="app-header">
+      <a href="ranglijst.html" class="header-back">‹</a>
+      <div class="header-title">Speler Profiel</div>
+      <div style="flex:1;"></div>
+      <div class="header-action" style="font-size:16px;">⋯</div>
+    </div>
+
+    <div class="scroll-area">
+
+      <!-- ─── HERO ─── -->
+      <div class="player-hero">
+
+        <!-- Top row: avatar + info -->
+        <div class="hero-top">
+          <div class="hero-avatar">
+            <div class="hero-avatar-ring"></div>
+            MV
+          </div>
+          <div class="hero-info">
+            <div class="hero-name">Marco van der Berg</div>
+            <div class="hero-location">📍 Rotterdam · Lid sinds 2022</div>
+            <div class="hero-badges">
+              <span class="hero-badge badge-elite">Elite · Rank 1</span>
+              <span class="hero-badge badge-member">28 toernooien</span>
+              <span class="hero-badge badge-public">Publiek profiel</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ELO + Rank number -->
+        <div class="elo-block">
+          <div class="elo-main">
+            <div class="elo-label">ELO Rating</div>
+            <div class="elo-number">1842</div>
+          </div>
+          <div style="flex:1;"></div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+            <div class="elo-trend">↑ +57 <span style="font-size:10px;font-weight:500;opacity:0.7">deze maand</span></div>
+            <div class="rank-num-display">
+              <div class="rank-num-label">Ranking</div>
+              <div class="rank-num-big">1</div>
+              <div class="rank-num-sub">Elite</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rank bar — all 9 filled, rank-1 (rightmost) is the current -->
+        <div class="rank-bar-section" style="margin-top:18px;">
+          <div class="rank-bar-wrap">
+            <div class="r-seg dim" style="background:var(--rank-9);"></div>
+            <div class="r-seg dim" style="background:var(--rank-8);"></div>
+            <div class="r-seg dim" style="background:var(--rank-7);"></div>
+            <div class="r-seg dim" style="background:var(--rank-6);"></div>
+            <div class="r-seg dim" style="background:var(--rank-5);"></div>
+            <div class="r-seg dim" style="background:var(--rank-4);"></div>
+            <div class="r-seg dim" style="background:var(--rank-3);"></div>
+            <div class="r-seg dim" style="background:var(--rank-2);"></div>
+            <div class="r-seg bright" style="background:#FF9500;"></div>
+          </div>
+          <div class="rank-bar-legend">
+            <span>9 · Beginner</span>
+            <span style="color:#FF9500;">1 · Elite ★</span>
+          </div>
+        </div>
+
+      </div><!-- /player-hero -->
+
+      <!-- ─── BETROUWBAARHEID ─── -->
+      <div class="detail-section">
+        <div class="section-heading">
+          <span class="section-heading-text">Betrouwbaarheid ranking</span>
+          <div class="section-heading-line"></div>
+        </div>
+        <div class="reliability-card">
+          <div class="rel-top">
+            <div>
+              <div class="rel-title">Ranking betrouwbaarheid</div>
+              <div style="font-size:11px;color:var(--c-gray);margin-top:2px;">Gebaseerd op 28 gespeelde toernooien</div>
+            </div>
+            <div class="rel-pct">94%</div>
+          </div>
+          <div class="rel-bar-track">
+            <div class="rel-bar-fill"></div>
+          </div>
+          <div class="rel-meta">
+            Een hoog percentage betekent dat de ELO-ranking de werkelijke speelsterkte nauwkeurig weerspiegelt. Meer gespeelde wedstrijden = hogere betrouwbaarheid.
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── STATISTIEKEN ─── -->
+      <div class="detail-section">
+        <div class="section-heading">
+          <span class="section-heading-text">Statistieken</span>
+          <div class="section-heading-line"></div>
+        </div>
+        <div class="stats-grid">
+
+          <div class="stat-tile">
+            <div class="st-label">Toernooien</div>
+            <div class="st-value">28</div>
+            <div class="st-sub">Gespeeld</div>
+          </div>
+
+          <div class="stat-tile">
+            <div class="st-label">Gewonnen</div>
+            <div class="st-value" style="color:var(--c-green);">21</div>
+            <div class="st-sub">7 verloren</div>
+          </div>
+
+          <div class="stat-tile">
+            <div class="st-label">Win rate</div>
+            <div class="st-value" style="color:var(--c-white);">75%</div>
+            <div class="st-bar"><div class="st-bar-fill" style="width:75%;background:var(--c-green);"></div></div>
+          </div>
+
+          <div class="stat-tile">
+            <div class="st-label">Loss rate</div>
+            <div class="st-value" style="color:var(--c-red);">25%</div>
+            <div class="st-bar"><div class="st-bar-fill" style="width:25%;background:var(--c-red);"></div></div>
+          </div>
+
+          <div class="stat-tile" style="grid-column:1/-1;">
+            <div class="st-label">Positie nationale ranglijst</div>
+            <div style="display:flex;align-items:baseline;gap:10px;">
+              <div class="st-value" style="color:#FF9500;">#1</div>
+              <div style="font-family:var(--f-display);font-size:16px;font-weight:700;color:var(--c-gray);">van 247 spelers</div>
+            </div>
+            <div class="st-sub" style="color:var(--c-green);">↑ 2 plaatsen ten opzichte van vorige maand</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ─── ELO GRAFIEK ─── -->
+      <div class="detail-section">
+        <div class="section-heading">
+          <span class="section-heading-text">ELO Verloop</span>
+          <div class="section-heading-line"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">ELO Progressie</div>
+              <div class="chart-period">Aug 2025 — Apr 2026</div>
+            </div>
+            <div>
+              <div class="chart-current-elo">1842</div>
+              <div class="chart-delta">+200 in 8 maanden</div>
+            </div>
+          </div>
+
+          <div class="chart-svg-wrap">
+            <svg viewBox="0 0 340 100" width="100%" preserveAspectRatio="none" style="display:block;overflow:visible;">
+              <defs>
+                <!-- Gradient fill under the line -->
+                <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"   stop-color="#FF9500" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#FF9500" stop-opacity="0.02"/>
+                </linearGradient>
+                <!-- Gradient stroke -->
+                <linearGradient id="chartStroke" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%"   stop-color="#25A85A"/>
+                  <stop offset="60%"  stop-color="#FFD166"/>
+                  <stop offset="100%" stop-color="#FF9500"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Horizontal gridlines -->
+              <line x1="10" y1="30" x2="330" y2="30" stroke="#2A3140" stroke-width="1" stroke-dasharray="3 4"/>
+              <line x1="10" y1="55" x2="330" y2="55" stroke="#2A3140" stroke-width="1" stroke-dasharray="3 4"/>
+              <line x1="10" y1="78.8" x2="330" y2="78.8" stroke="#2A3140" stroke-width="0.5" opacity="0.5"/>
+
+              <!-- ELO labels on gridlines -->
+              <text x="2" y="33"  fill="#8A9099" font-size="7" font-family="'Barlow Condensed', sans-serif" font-weight="700">1840</text>
+              <text x="2" y="58"  fill="#8A9099" font-size="7" font-family="'Barlow Condensed', sans-serif" font-weight="700">1740</text>
+              <text x="2" y="81"  fill="#8A9099" font-size="7" font-family="'Barlow Condensed', sans-serif" font-weight="700">1640</text>
+
+              <!-- Area fill -->
+              <path
+                d="M10,78.8 L55.7,74.5 L101.4,63.1 L147.1,66.3 L192.9,56.9 L238.6,42.5 L284.3,33.5 L330,25.5 L330,90 L10,90 Z"
+                fill="url(#chartFill)"
+              />
+
+              <!-- Line -->
+              <polyline
+                points="10,78.8 55.7,74.5 101.4,63.1 147.1,66.3 192.9,56.9 238.6,42.5 284.3,33.5 330,25.5"
+                fill="none"
+                stroke="url(#chartStroke)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              <!-- Data point dots -->
+              <circle cx="10"    cy="78.8" r="2.5" fill="#25A85A"/>
+              <circle cx="55.7"  cy="74.5" r="2.5" fill="#2ECC71"/>
+              <circle cx="101.4" cy="63.1" r="2.5" fill="#7ED957"/>
+              <circle cx="147.1" cy="66.3" r="2.5" fill="#A8E63D"/>
+              <circle cx="192.9" cy="56.9" r="2.5" fill="#FFD166"/>
+              <circle cx="238.6" cy="42.5" r="2.5" fill="#FF9500"/>
+              <circle cx="284.3" cy="33.5" r="2.5" fill="#FF9500"/>
+              <!-- Last point: larger + glow -->
+              <circle cx="330"   cy="25.5" r="5"   fill="#FF9500" opacity="0.25"/>
+              <circle cx="330"   cy="25.5" r="3"   fill="#FF9500"/>
+
+              <!-- Current ELO label on last point -->
+              <text x="318" y="20" fill="#FF9500" font-size="8" font-family="'Barlow Condensed', sans-serif" font-weight="800" text-anchor="middle">1842</text>
+            </svg>
+          </div>
+
+          <!-- Month labels -->
+          <div class="chart-months">
+            <span class="chart-month-lbl">Aug</span>
+            <span class="chart-month-lbl">Sep</span>
+            <span class="chart-month-lbl">Okt</span>
+            <span class="chart-month-lbl">Nov</span>
+            <span class="chart-month-lbl">Dec</span>
+            <span class="chart-month-lbl">Jan</span>
+            <span class="chart-month-lbl">Feb</span>
+            <span class="chart-month-lbl">Apr</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── RECENTE RESULTATEN ─── -->
+      <div class="detail-section">
+        <div class="section-heading">
+          <span class="section-heading-text">Recente resultaten</span>
+          <div class="section-heading-line"></div>
+        </div>
+        <div class="result-list">
+
+          <div class="result-row">
+            <div class="result-accent win"></div>
+            <div class="result-body">
+              <div class="result-badge win">WIN</div>
+              <div class="result-meta">
+                <div class="result-tourney">Lake Seven Rotterdam</div>
+                <div class="result-opp">vs. Bakker / Mol · 12 apr 2026</div>
+              </div>
+              <div class="result-score-block">
+                <div class="result-score win">7–3</div>
+                <div class="result-round">Finale</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-row">
+            <div class="result-accent win"></div>
+            <div class="result-body">
+              <div class="result-badge win">WIN</div>
+              <div class="result-meta">
+                <div class="result-tourney">Padelworld Hoefkade</div>
+                <div class="result-opp">vs. Peters / Hendriks · 26 mrt 2026</div>
+              </div>
+              <div class="result-score-block">
+                <div class="result-score win">6–4</div>
+                <div class="result-round">Halve Finale</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-row">
+            <div class="result-accent win"></div>
+            <div class="result-body">
+              <div class="result-badge win">WIN</div>
+              <div class="result-meta">
+                <div class="result-tourney">Groen Geel Padel</div>
+                <div class="result-opp">vs. Jacobs / Vermeer · 22 mrt 2026</div>
+              </div>
+              <div class="result-score-block">
+                <div class="result-score win">6–2</div>
+                <div class="result-round">Groepsfase</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-row">
+            <div class="result-accent loss"></div>
+            <div class="result-body">
+              <div class="result-badge loss">LOSS</div>
+              <div class="result-meta">
+                <div class="result-tourney">Urban Sports Club</div>
+                <div class="result-opp">vs. De Boer / Hendriks · 14 feb 2026</div>
+              </div>
+              <div class="result-score-block">
+                <div class="result-score loss">5–7</div>
+                <div class="result-round">Finale</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div style="height:32px;"></div>
+    </div><!-- /scroll-area -->
+
+    <!-- Tab bar — shows Ranglijst as active since navigated from there -->
+    <nav class="tab-bar">
+      <a href="home.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <span class="tab-label">Home</span>
+      </a>
+      <a href="toernooien.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
+        <span class="tab-label">Toernooien</span>
+      </a>
+      <a href="inschrijvingen.html" class="tab-item tab-center">
+        <div class="tab-center-btn">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <span class="tab-label">Inschrijven</span>
+      </a>
+      <a href="ranglijst.html" class="tab-item active">
+        <div class="tab-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 6l4-4 4 4"/><line x1="12" y1="2" x2="12" y2="13"/>
+            <circle cx="12" cy="17" r="3"/>
+            <path d="M5.2 18.6A9 9 0 1 1 18.8 18.6"/>
+          </svg>
+        </div>
+        <span class="tab-label">Ranglijst</span>
+      </a>
+      <a href="profiel.html" class="tab-item">
+        <div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <span class="tab-label">Profiel</span>
+      </a>
+    </nav>
+
+  </div><!-- /app -->
+</body>
+</html>
